@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Main Terminal - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Space+Grotesk:wght@500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed": "#281900",
+                      "secondary-container": "#00761f",
+                      "error-container": "#93000a",
+                      "surface-dim": "#131313",
+                      "surface-variant": "#353535",
+                      "on-secondary-fixed": "#002204",
+                      "on-error-container": "#ffdad6",
+                      "inverse-on-surface": "#303030",
+                      "on-primary": "#432c00",
+                      "surface-container-low": "#1b1b1c",
+                      "on-tertiary-fixed": "#400013",
+                      "outline-variant": "#514532",
+                      "on-surface": "#e5e2e1",
+                      "inverse-surface": "#e5e2e1",
+                      "secondary-fixed-dim": "#78dc77",
+                      "on-tertiary-fixed-variant": "#7e273b",
+                      "on-primary-fixed-variant": "#604100",
+                      "on-secondary": "#00390a",
+                      "on-secondary-container": "#95fb92",
+                      "secondary-fixed": "#94f990",
+                      "primary": "#ffd79b",
+                      "on-secondary-fixed-variant": "#005313",
+                      "primary-container": "#ffb300",
+                      "on-primary-container": "#6b4900",
+                      "surface-bright": "#393939",
+                      "primary-fixed": "#ffdeac",
+                      "background": "#131313",
+                      "secondary": "#78dc77",
+                      "on-error": "#690005",
+                      "tertiary-fixed": "#ffd9dd",
+                      "surface-container-high": "#2a2a2a",
+                      "surface-container": "#202020",
+                      "on-surface-variant": "#d6c4ac",
+                      "surface-container-highest": "#353535",
+                      "tertiary": "#ffd2d7",
+                      "tertiary-fixed-dim": "#ffb2bc",
+                      "surface": "#131313",
+                      "tertiary-container": "#ffaab6",
+                      "on-background": "#e5e2e1",
+                      "primary-fixed-dim": "#ffba38",
+                      "inverse-primary": "#7e5700",
+                      "on-tertiary-container": "#892f43",
+                      "outline": "#9e8e78",
+                      "on-tertiary": "#600f26",
+                      "error": "#ffb4ab",
+                      "surface-tint": "#ffba38",
+                      "surface-container-lowest": "#0e0e0e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {},
+              "fontFamily": {
+                      "headline": [
+                              "Space Grotesk"
+                      ],
+                      "body": [
+                              "Inter"
+                      ],
+                      "label": [
+                              "Inter"
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-surface font-body h-screen flex flex-col md:flex-row antialiased overflow-hidden">
+<!-- Left Side: Terminal Visuals / Branding (Hidden on very small screens) -->
+<div class="hidden md:flex md:w-1/2 lg:w-[60%] bg-surface-container-lowest border-r border-surface-variant/20 flex-col justify-between p-8 relative">
+<!-- Abstract Industrial Background -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at 20% 50%, var(--tw-colors-primary-container) 0%, transparent 40%); mix-blend-mode: color-dodge;"></div>
+<!-- Header area -->
+<div class="z-10 flex justify-between items-start w-full">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="barcode_scanner" data-weight="fill">barcode_scanner</span>
+<h1 class="font-headline font-black text-2xl tracking-widest text-primary uppercase">OPS-CONTROL-V1</h1>
+</div>
+<div class="font-label text-xs tracking-widest text-outline uppercase border border-outline-variant/30 px-2 py-1 rounded">
+                SECURE_CONNECTION
+            </div>
+</div>
+<!-- Central abstract graphic or text block -->
+<div class="z-10 max-w-lg">
+<h2 class="font-headline font-bold text-5xl leading-tight text-on-surface mb-6">MAIN_TERMINAL <br/> <span class="text-on-surface-variant">SECTOR_07_WHSE</span></h2>
+<p class="font-body text-on-surface-variant/80 text-sm leading-relaxed mb-8 border-l-2 border-primary pl-4">
+                Authorized personnel only. Access to this terminal is monitored and logged. Ensure all protocols are followed during session initiation.
+            </p>
+<!-- Terminal Stats Mockup -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-4 rounded-md border border-surface-variant/20">
+<span class="font-label text-xs tracking-widest text-outline uppercase block mb-1">SYSTEM_STATUS</span>
+<span class="font-headline text-xl text-secondary-fixed">ONLINE</span>
+</div>
+<div class="bg-surface-container-low p-4 rounded-md border border-surface-variant/20">
+<span class="font-label text-xs tracking-widest text-outline uppercase block mb-1">LAST_SYNC</span>
+<span class="font-headline text-xl text-on-surface" style="font-variant-numeric: tabular-nums;">08:42:11_UTC</span>
+</div>
+</div>
+</div>
+<!-- Footer area -->
+<div class="z-10 flex justify-between items-end w-full">
+<div class="font-label text-xs tracking-widest text-outline uppercase">
+                V. 2.4.9 // BUILD_8841
+            </div>
+<div class="flex gap-2 opacity-50">
+<div class="w-1 h-6 bg-outline-variant"></div>
+<div class="w-2 h-6 bg-outline-variant"></div>
+<div class="w-1 h-6 bg-outline-variant"></div>
+<div class="w-3 h-6 bg-outline-variant"></div>
+<div class="w-1 h-6 bg-outline-variant"></div>
+</div>
+</div>
+</div>
+<!-- Right Side: Login Panel -->
+<div class="w-full md:w-1/2 lg:w-[40%] bg-surface flex flex-col justify-center items-center p-6 sm:p-12 relative">
+<!-- Mobile Header (Visible only on mobile) -->
+<div class="md:hidden absolute top-0 left-0 w-full p-6 flex justify-between items-center border-b border-surface-variant/20 bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="barcode_scanner" data-weight="fill">barcode_scanner</span>
+<span class="font-headline font-bold text-sm tracking-widest text-primary uppercase">OPS-CONTROL-V1</span>
+</div>
+<span class="font-label text-[10px] tracking-widest text-outline uppercase">SEC_07</span>
+</div>
+<div class="w-full max-w-md bg-surface-container-high rounded-lg p-8 relative shadow-[0_24px_48px_-12px_rgba(229,226,225,0.05)] border border-outline-variant/15 mt-16 md:mt-0">
+<!-- Scanner brackets detail -->
+<div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-outline rounded-tl-lg pointer-events-none"></div>
+<div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-outline rounded-tr-lg pointer-events-none"></div>
+<div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-outline rounded-bl-lg pointer-events-none"></div>
+<div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-outline rounded-br-lg pointer-events-none"></div>
+<div class="mb-8">
+<h2 class="font-headline text-3xl font-bold text-on-surface mb-2">AUTHENTICATION</h2>
+<p class="font-body text-sm text-on-surface-variant">Provide credentials to initialize session.</p>
+</div>
+<!-- Role Selection (Mock Tabs) -->
+<div class="flex gap-2 mb-8 bg-surface-container-low p-1 rounded-md border border-surface-variant/20">
+<button class="flex-1 bg-surface-container-highest text-primary font-label text-xs uppercase tracking-widest py-2 rounded-sm border border-outline-variant/30 relative overflow-hidden group hover:bg-surface-bright transition-colors">
+<span class="relative z-10 font-bold">ADMIN_ROLE</span>
+<!-- Active indicator -->
+<div class="absolute top-0 left-0 w-full h-0.5 bg-primary"></div>
+</button>
+<button class="flex-1 text-on-surface-variant font-label text-xs uppercase tracking-widest py-2 rounded-sm hover:bg-surface-container-highest transition-colors">
+<span class="font-semibold">CASHIER_ROLE</span>
+</button>
+</div>
+<form class="space-y-6">
+<!-- Input: Operator ID -->
+<div class="relative bg-surface-container-highest rounded-md border border-outline-variant/15 focus-within:border-primary/50 transition-colors">
+<div class="absolute top-0 left-0 w-0.5 h-full bg-primary opacity-0 focus-within:opacity-100 transition-opacity rounded-tl-md rounded-bl-md"></div>
+<label class="block px-4 pt-2 font-label text-[10px] uppercase tracking-widest text-outline" for="operator_id">OPERATOR_ID</label>
+<input class="w-full bg-transparent border-none text-on-surface font-body px-4 pb-2 pt-1 focus:ring-0 placeholder:text-surface-variant" id="operator_id" placeholder="e.g. ADM-8492" style="font-variant-numeric: tabular-nums;" type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-4 text-outline-variant pointer-events-none" data-icon="badge">badge</span>
+</div>
+<!-- Input: Passcode -->
+<div class="relative bg-surface-container-highest rounded-md border border-outline-variant/15 focus-within:border-primary/50 transition-colors">
+<div class="absolute top-0 left-0 w-0.5 h-full bg-primary opacity-0 focus-within:opacity-100 transition-opacity rounded-tl-md rounded-bl-md"></div>
+<label class="block px-4 pt-2 font-label text-[10px] uppercase tracking-widest text-outline" for="passcode">AUTHORIZATION_CODE</label>
+<input class="w-full bg-transparent border-none text-on-surface font-body px-4 pb-2 pt-1 focus:ring-0 placeholder:text-surface-variant" id="passcode" placeholder="••••••••" type="password"/>
+<span class="material-symbols-outlined absolute right-3 top-4 text-outline-variant pointer-events-none" data-icon="dialpad">dialpad</span>
+</div>
+<!-- Actions -->
+<div class="pt-4 flex flex-col gap-4">
+<button class="w-full bg-primary text-on-primary font-label text-sm uppercase tracking-widest font-bold py-4 rounded-md hover:bg-primary-container transition-colors shadow-none relative overflow-hidden group" type="button">
+<span class="relative z-10 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="login">login</span>
+                            INITIALIZE_SESSION
+                        </span>
+<!-- Subtle gradient overlay for 'machined' look -->
+<div class="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none"></div>
+</button>
+<button class="w-full bg-transparent border border-outline-variant/30 text-primary font-label text-xs uppercase tracking-widest font-semibold py-3 rounded-md hover:bg-surface-container-highest transition-colors" type="button">
+                        SCAN_ID_CARD
+                    </button>
+</div>
+</form>
+<!-- Technical footer on form -->
+<div class="mt-8 pt-4 border-t border-surface-variant/20 flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-outline text-sm" data-icon="lock">lock</span>
+<span class="font-label text-[10px] tracking-widest text-outline uppercase">256-BIT_ENCRYPTION_ACTIVE</span>
+</div>
+</div>
+</div>
+</body></html>

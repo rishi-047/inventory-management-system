@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>INVENTORY LIST - PRODUCT MANAGEMENT</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#281900",
+                        "secondary-container": "#00761f",
+                        "error-container": "#93000a",
+                        "surface-dim": "#131313",
+                        "surface-variant": "#353535",
+                        "on-secondary-fixed": "#002204",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#303030",
+                        "on-primary": "#432c00",
+                        "surface-container-low": "#1b1b1c",
+                        "on-tertiary-fixed": "#400013",
+                        "outline-variant": "#514532",
+                        "on-surface": "#e5e2e1",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary-fixed-dim": "#78dc77",
+                        "on-tertiary-fixed-variant": "#7e273b",
+                        "on-primary-fixed-variant": "#604100",
+                        "on-secondary": "#00390a",
+                        "on-secondary-container": "#95fb92",
+                        "secondary-fixed": "#94f990",
+                        "primary": "#ffd79b",
+                        "on-secondary-fixed-variant": "#005313",
+                        "primary-container": "#ffb300",
+                        "on-primary-container": "#6b4900",
+                        "surface-bright": "#393939",
+                        "primary-fixed": "#ffdeac",
+                        "background": "#131313",
+                        "secondary": "#78dc77",
+                        "on-error": "#690005",
+                        "tertiary-fixed": "#ffd9dd",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-container": "#202020",
+                        "on-surface-variant": "#d6c4ac",
+                        "surface-container-highest": "#353535",
+                        "tertiary": "#ffd2d7",
+                        "tertiary-fixed-dim": "#ffb2bc",
+                        "surface": "#131313",
+                        "tertiary-container": "#ffaab6",
+                        "on-background": "#e5e2e1",
+                        "primary-fixed-dim": "#ffba38",
+                        "inverse-primary": "#7e5700",
+                        "on-tertiary-container": "#892f43",
+                        "outline": "#9e8e78",
+                        "on-tertiary": "#600f26",
+                        "error": "#ffb4ab",
+                        "surface-tint": "#ffba38",
+                        "surface-container-lowest": "#0e0e0e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .tabular-nums { font-variant-numeric: tabular-nums; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen left-0 w-64 bg-surface-container-low border-r border-surface-variant/20 py-8 space-y-2 z-40 shrink-0">
+<div class="px-6 mb-8 flex items-center gap-4">
+<div class="w-10 h-10 bg-surface-container-highest rounded-DEFAULT flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-xl">account_balance</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline font-bold text-primary text-sm tracking-tight">MAIN_TERMINAL</span>
+<span class="font-label text-[10px] tracking-widest text-on-surface/60 uppercase">SECTOR_07_WHSE</span>
+</div>
+</div>
+<div class="flex-1 flex flex-col space-y-1">
+<a class="text-on-surface/60 px-6 py-3 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-label uppercase text-[11px] tracking-widest font-semibold">DASHBOARD</span>
+</a>
+<a class="bg-surface-container-high text-primary border-l-4 border-primary-container px-6 py-3 flex items-center gap-3 transition-transform translate-x-1" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-label uppercase text-[11px] tracking-widest font-semibold">INVENTORY</span>
+</a>
+<a class="text-on-surface/60 px-6 py-3 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">add_box</span>
+<span class="font-label uppercase text-[11px] tracking-widest font-semibold">NEW_ENTRY</span>
+</a>
+<a class="text-on-surface/60 px-6 py-3 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">point_of_sale</span>
+<span class="font-label uppercase text-[11px] tracking-widest font-semibold">TRANSACTIONS</span>
+</a>
+<a class="text-on-surface/60 px-6 py-3 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+<span class="font-label uppercase text-[11px] tracking-widest font-semibold">ALERTS</span>
+</a>
+<a class="text-on-surface/60 px-6 py-3 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+<span class="font-label uppercase text-[11px] tracking-widest font-semibold">REPORTS</span>
+</a>
+</div>
+<div class="px-6 py-4 mt-auto">
+<button class="w-full bg-primary text-on-primary font-label uppercase text-[11px] tracking-widest font-bold py-3 rounded-md flex items-center justify-center gap-2 hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-[18px]">barcode_scanner</span>
+                SCAN_BARCODE
+            </button>
+</div>
+<div class="flex flex-col space-y-1 mt-4 border-t border-surface-variant/20 pt-4">
+<a class="text-on-surface/60 px-6 py-2 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">help_outline</span>
+<span class="font-label uppercase text-[10px] tracking-widest font-semibold">HELP</span>
+</a>
+<a class="text-on-surface/60 px-6 py-2 flex items-center gap-3 hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-[18px]">terminal</span>
+<span class="font-label uppercase text-[10px] tracking-widest font-semibold">LOGS</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden bg-surface relative">
+<!-- TopNavBar (Mobile Only or Secondary Desktop Header) -->
+<header class="flex justify-between items-center w-full px-6 py-4 bg-surface-container-low border-b border-surface-variant/20 shrink-0 md:hidden z-50">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary cursor-pointer">menu</span>
+<span class="font-headline font-black uppercase tracking-widest text-primary text-lg">OPS-CONTROL</span>
+</div>
+<div class="flex items-center gap-4 text-primary">
+<span class="material-symbols-outlined cursor-pointer">search</span>
+<span class="material-symbols-outlined cursor-pointer">notifications</span>
+</div>
+</header>
+<!-- Page Header & Controls -->
+<div class="px-8 py-6 shrink-0 bg-surface flex flex-col gap-6 z-10 relative">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="font-headline text-3xl md:text-4xl font-bold tracking-tight text-on-surface mb-1">INVENTORY_MANIFEST</h1>
+<p class="font-label text-sm text-on-surface-variant uppercase tracking-widest">LIVE DATA FEED // SECTOR 07</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="bg-surface-container-high border border-outline-variant/30 text-on-surface px-4 py-2 rounded-DEFAULT font-label text-xs uppercase tracking-widest hover:bg-surface-container-highest transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                        FILTER
+                    </button>
+<button class="bg-surface-container-high border border-outline-variant/30 text-on-surface px-4 py-2 rounded-DEFAULT font-label text-xs uppercase tracking-widest hover:bg-surface-container-highest transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                        EXPORT
+                    </button>
+</div>
+</div>
+<!-- Search & Filters -->
+<div class="flex flex-col md:flex-row gap-4 items-center bg-surface-container-low p-4 rounded-lg border border-surface-variant/20 relative">
+<div class="relative w-full md:w-96">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2 border-none bg-surface-container-highest rounded-DEFAULT text-on-surface font-body text-sm placeholder-on-surface-variant focus:ring-0 focus:outline-none focus:bg-surface-bright transition-colors" placeholder="SEARCH SKU, NAME, OR TAG..." type="text"/>
+<!-- Cursor detail -->
+<div class="absolute top-2 left-2 w-[2px] h-4 bg-primary hidden focus-within:block"></div>
+</div>
+<div class="flex gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-hide">
+<button class="bg-surface-container-highest text-on-surface px-3 py-1.5 rounded-DEFAULT font-label text-xs uppercase tracking-widest whitespace-nowrap hover:bg-surface-bright border border-outline-variant/20">ALL_CATEGORIES</button>
+<button class="bg-primary/10 text-primary px-3 py-1.5 rounded-DEFAULT font-label text-xs uppercase tracking-widest whitespace-nowrap border border-primary/30">ELECTRONICS</button>
+<button class="bg-surface-container-highest text-on-surface px-3 py-1.5 rounded-DEFAULT font-label text-xs uppercase tracking-widest whitespace-nowrap hover:bg-surface-bright border border-outline-variant/20">CLOTHING</button>
+<button class="bg-surface-container-highest text-on-surface px-3 py-1.5 rounded-DEFAULT font-label text-xs uppercase tracking-widest whitespace-nowrap hover:bg-surface-bright border border-outline-variant/20">TOOLS</button>
+</div>
+</div>
+</div>
+<!-- Data Grid Content -->
+<div class="flex-1 overflow-y-auto px-8 pb-8 relative z-0">
+<!-- Asymmetric Data Presentation -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full">
+<!-- Main Data Table Area (Takes up most space) -->
+<div class="lg:col-span-9 flex flex-col gap-4">
+<!-- High Priority Card -->
+<div class="bg-surface-container-high rounded-lg p-5 relative group">
+<!-- Corner Brackets -->
+<div class="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-outline/50 rounded-tl-lg pointer-events-none"></div>
+<div class="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-outline/50 rounded-tr-lg pointer-events-none"></div>
+<div class="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-outline/50 rounded-bl-lg pointer-events-none"></div>
+<div class="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-outline/50 rounded-br-lg pointer-events-none"></div>
+<div class="flex flex-col md:flex-row gap-6 items-start md:items-center">
+<!-- Image Thumbnail -->
+<div class="w-24 h-24 bg-surface-container-lowest rounded-md shrink-0 overflow-hidden relative border border-surface-variant/30">
+<img alt="Apple Watch on dark background" class="w-full h-full object-cover opacity-80 mix-blend-luminosity hover:mix-blend-normal transition-all" data-alt="sleek modern smartwatch floating against a dark industrial metallic background with dramatic edge lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATWIuZMzH-m1NkKXkGxYdsXSN2gDAhWt6TAl-5CELADPwlQK_OkmkXMU2cBv3CUhiqehgdnCfkm7A-7roCU_R6NP7xvl22LgNTqExoa9tyzKHzGVAA8YemEpsKz5QA7zUtBoMq8o-hIwgB6L7uwNggRVZd3ziBrC2hKv57GcC6Ly0wCvtWaqkhQeEFXMk5sktAH9KxFr-rFVMse48m6Bwyrq2NcOXY-Lpwc5UfbFblGjIRbnn7q6wSUYJVW8CjmoD7cen0PMKWchs"/>
+<div class="absolute top-1 left-1 bg-surface-container/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-label font-bold text-primary tabular-nums">01</div>
+</div>
+<!-- Product Info -->
+<div class="flex-1 min-w-0 flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-surface-container-highest text-on-surface-variant px-2 py-0.5 rounded text-[10px] font-label uppercase tracking-widest border border-outline-variant/20">ELEC</span>
+<span class="text-[10px] font-label text-primary uppercase tracking-widest tabular-nums">SKU: AW-S8-0921</span>
+</div>
+<h3 class="font-headline text-lg font-bold text-on-surface truncate">QUANTUM WRIST TERMINAL v8</h3>
+</div>
+<div class="bg-secondary-container/20 text-secondary-fixed border border-secondary-container px-2 py-1 rounded-DEFAULT flex items-center gap-1">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary-fixed animate-pulse"></div>
+<span class="font-label text-[10px] font-bold uppercase tracking-widest">IN_STOCK</span>
+</div>
+</div>
+<!-- Technical Details -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
+<div class="flex flex-col">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">WARRANTY</span>
+<span class="font-body text-sm font-medium text-on-surface">24_MONTHS</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">ZONE</span>
+<span class="font-body text-sm font-medium text-on-surface">SEC_A_42</span>
+</div>
+<div class="flex flex-col md:col-span-2">
+<div class="flex justify-between mb-1">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">STOCK_LEVEL</span>
+<span class="font-label text-[10px] text-on-surface font-bold tabular-nums">142 / 200</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-secondary-fixed w-[71%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Action -->
+<div class="shrink-0 flex items-center justify-center self-stretch border-l border-surface-variant/20 pl-6 ml-2 hidden md:flex">
+<button class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface hover:text-primary hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Warning Card (Asymmetric styling) -->
+<div class="bg-surface-container-low rounded-lg p-5 relative border-l-4 border-error overflow-hidden group ml-0 md:ml-8 transition-transform hover:-translate-y-1">
+<!-- Ambient Shadow overlay for depth -->
+<div class="absolute inset-0 bg-gradient-to-r from-error/5 to-transparent pointer-events-none"></div>
+<div class="flex flex-col md:flex-row gap-6 items-start md:items-center relative z-10">
+<!-- Image Thumbnail -->
+<div class="w-24 h-24 bg-surface-container-highest rounded-md shrink-0 overflow-hidden relative border border-error/20">
+<img alt="White t-shirt" class="w-full h-full object-cover opacity-60 mix-blend-luminosity grayscale group-hover:grayscale-0 transition-all" data-alt="folded white technical fabric t-shirt stacked in a dimly lit warehouse rack with cool blue ambient light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDk3AScceNSypXGw0YMRUY7EKdGxqkdTVIsvw3M8IeZVtGSlT-lY7uUsPtvmGl8iE-GHa-SYGMw5SwzT5HlVNcEtXlkD4MdP-MIdXs_Q4QPE2vCMCPBvxcCsqYopob521uvYcca2L5qG_0q3WGeTEa4xniRessuSNrc90GrZcQZxBoThx510i2lKos2aluvlzneCrywXrykxG7VhaqXXP72M4Q2kdMkkgvOA4tthAD13LWEZC47tmcBZvMlQBiU3UIezSWaKocfMF8"/>
+<div class="absolute top-1 left-1 bg-error-container/90 px-1.5 py-0.5 rounded text-[9px] font-label font-bold text-on-error-container tabular-nums">02</div>
+</div>
+<!-- Product Info -->
+<div class="flex-1 min-w-0 flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-surface-container-highest text-on-surface-variant px-2 py-0.5 rounded text-[10px] font-label uppercase tracking-widest border border-outline-variant/20">CLTH</span>
+<span class="text-[10px] font-label text-error uppercase tracking-widest tabular-nums">SKU: TX-BT-0091</span>
+</div>
+<h3 class="font-headline text-lg font-bold text-on-surface truncate">THERMAL BASE LAYER_v2</h3>
+</div>
+<div class="bg-error-container/20 text-error border border-error/50 px-2 py-1 rounded-DEFAULT flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+<span class="font-label text-[10px] font-bold uppercase tracking-widest">LOW_STOCK</span>
+</div>
+</div>
+<!-- Technical Details -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
+<div class="flex flex-col">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">SIZE</span>
+<span class="font-body text-sm font-medium text-on-surface">XL_LARGE</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">ZONE</span>
+<span class="font-body text-sm font-medium text-on-surface">SEC_C_12</span>
+</div>
+<div class="flex flex-col md:col-span-2">
+<div class="flex justify-between mb-1">
+<span class="font-label text-[10px] text-error uppercase tracking-widest">CRITICAL_LEVEL</span>
+<span class="font-label text-[10px] text-error font-bold tabular-nums">12 / 200</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-error w-[6%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Standard Card -->
+<div class="bg-surface-container-low rounded-lg p-5 relative border border-transparent hover:border-surface-variant/30 transition-colors group">
+<div class="flex flex-col md:flex-row gap-6 items-start md:items-center">
+<!-- Image Thumbnail -->
+<div class="w-24 h-24 bg-surface-container-highest rounded-md shrink-0 overflow-hidden relative">
+<img alt="Headphones" class="w-full h-full object-cover opacity-70 mix-blend-luminosity group-hover:mix-blend-normal transition-all" data-alt="sleek black over-ear studio headphones resting on a matte black gridded surface with subtle underlighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdRw1bJaHgucUNwggOgGdHl-OS7zdVCVB-3S1IijKbFn0bWn1LCgCZmk6MIAEzyWS9U9-wM1cTf2WuWKL2S09Rt6BHozRu52E-aq5CPbl8wbfQgex8LHz5nR_xbd1MxbaX_SMAyrbASf6FG1HulokwAiyg0Dr_bDj9EjYKaQCChD4vcFQ3oTlmgiwex9FEeI0GL3q08VVRgj5BHLalgmUoo31FMuBx6ijvJSLNwDzOZ_obSIWT5LVSCRQaixvsQ28PNmEgXtU7VzY"/>
+<div class="absolute top-1 left-1 bg-surface-container/80 backdrop-blur-sm px-1.5 py-0.5 rounded text-[9px] font-label font-bold text-on-surface-variant tabular-nums">03</div>
+</div>
+<!-- Product Info -->
+<div class="flex-1 min-w-0 flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-surface-container-highest text-on-surface-variant px-2 py-0.5 rounded text-[10px] font-label uppercase tracking-widest border border-outline-variant/20">ELEC</span>
+<span class="text-[10px] font-label text-on-surface-variant uppercase tracking-widest tabular-nums">SKU: AU-HD-4420</span>
+</div>
+<h3 class="font-headline text-lg font-bold text-on-surface truncate">ACOUSTIC ISOLATOR PRO</h3>
+</div>
+<div class="bg-surface-container-highest text-on-surface-variant border border-outline-variant/30 px-2 py-1 rounded-DEFAULT flex items-center gap-1">
+<span class="font-label text-[10px] font-bold uppercase tracking-widest">IN_TRANSIT</span>
+</div>
+</div>
+<!-- Technical Details -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
+<div class="flex flex-col">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">WARRANTY</span>
+<span class="font-body text-sm font-medium text-on-surface">12_MONTHS</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">ZONE</span>
+<span class="font-body text-sm font-medium text-on-surface">INBOUND_DOCK</span>
+</div>
+<div class="flex flex-col md:col-span-2">
+<div class="flex justify-between mb-1">
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">EXPECTED_QTY</span>
+<span class="font-label text-[10px] text-on-surface font-bold tabular-nums">+ 50</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-lowest rounded-full overflow-hidden flex">
+<div class="h-full bg-secondary-fixed w-[40%] rounded-l-full opacity-50"></div>
+<div class="h-full bg-primary/40 w-[20%] animate-pulse border-l border-surface-dim"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Side Summary / Actions Panel (Bento style) -->
+<div class="lg:col-span-3 flex flex-col gap-4">
+<!-- Quick Stats Block -->
+<div class="bg-surface-container-low rounded-lg p-5 flex flex-col gap-4">
+<h4 class="font-label text-xs uppercase tracking-widest text-on-surface-variant font-semibold border-b border-surface-variant/20 pb-2">SYSTEM_STATUS</h4>
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-end">
+<div class="flex flex-col">
+<span class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">TOTAL_SKUS</span>
+<span class="font-headline text-2xl font-bold text-on-surface tabular-nums leading-none mt-1">4,291</span>
+</div>
+<span class="material-symbols-outlined text-primary text-[24px]">dataset</span>
+</div>
+<div class="flex justify-between items-end">
+<div class="flex flex-col">
+<span class="font-label text-[10px] uppercase tracking-widest text-on-surface-variant">CRITICAL_ALERTS</span>
+<span class="font-headline text-2xl font-bold text-error tabular-nums leading-none mt-1">14</span>
+</div>
+<span class="material-symbols-outlined text-error text-[24px]">notification_important</span>
+</div>
+</div>
+</div>
+<!-- Quick Action -->
+<button class="bg-surface-container-highest hover:bg-surface-bright text-primary border border-primary/20 rounded-lg p-4 flex flex-col items-center justify-center gap-2 transition-colors group">
+<span class="material-symbols-outlined text-[32px] group-hover:scale-110 transition-transform">add_circle</span>
+<span class="font-label text-[11px] uppercase tracking-widest font-bold">LOG_NEW_ITEM</span>
+</button>
+<!-- Mini Log -->
+<div class="bg-surface-container-low rounded-lg p-5 flex-1 min-h-[200px] flex flex-col">
+<h4 class="font-label text-xs uppercase tracking-widest text-on-surface-variant font-semibold border-b border-surface-variant/20 pb-2 mb-3">RECENT_ACTIVITY</h4>
+<div class="flex flex-col gap-3 overflow-y-auto pr-2 scrollbar-hide flex-1">
+<div class="flex gap-2 items-start">
+<span class="material-symbols-outlined text-[14px] text-secondary mt-0.5">arrow_downward</span>
+<div class="flex flex-col">
+<span class="font-label text-[10px] font-medium text-on-surface">INBOUND: AU-HD-4420 (+50)</span>
+<span class="font-label text-[9px] text-on-surface-variant tabular-nums tracking-wider">10:42 AM // OP_JONES</span>
+</div>
+</div>
+<div class="flex gap-2 items-start">
+<span class="material-symbols-outlined text-[14px] text-error mt-0.5">warning</span>
+<div class="flex flex-col">
+<span class="font-label text-[10px] font-medium text-on-surface">ALERT: TX-BT-0091 LOW</span>
+<span class="font-label text-[9px] text-on-surface-variant tabular-nums tracking-wider">09:15 AM // SYS_AUTO</span>
+</div>
+</div>
+<div class="flex gap-2 items-start">
+<span class="material-symbols-outlined text-[14px] text-primary mt-0.5">arrow_upward</span>
+<div class="flex flex-col">
+<span class="font-label text-[10px] font-medium text-on-surface">OUTBOUND: AW-S8-0921 (-2)</span>
+<span class="font-label text-[9px] text-on-surface-variant tabular-nums tracking-wider">08:30 AM // OP_SMITH</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

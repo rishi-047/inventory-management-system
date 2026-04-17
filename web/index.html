@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inventory Web Prototype</title>
+  <style>
+    :root {
+      --bg: #131313;
+      --surface: #1b1b1c;
+      --surface-2: #2a2a2a;
+      --text: #e5e2e1;
+      --muted: #b9aca0;
+      --accent: #ffd79b;
+      --accent-2: #ffb300;
+      --good: #78dc77;
+      --warn: #ffb4ab;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(255, 179, 0, 0.12), transparent 32%),
+        linear-gradient(180deg, #181818 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+
+    .shell {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px 64px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 12px;
+      margin-bottom: 14px;
+    }
+
+    h1,
+    h2 {
+      font-family: "Space Grotesk", Inter, Arial, sans-serif;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      line-height: 0.95;
+      max-width: 760px;
+    }
+
+    .lede {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin: 20px 0 0;
+    }
+
+    .hero {
+      padding: 18px 0 36px;
+      border-bottom: 1px solid rgba(255, 215, 155, 0.12);
+      margin-bottom: 32px;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 28px 0 0;
+    }
+
+    .metric {
+      background: linear-gradient(180deg, rgba(42, 42, 42, 0.95), rgba(27, 27, 28, 0.95));
+      border: 1px solid rgba(255, 215, 155, 0.08);
+      padding: 18px;
+      border-radius: 10px;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 10px;
+      font-size: 1.35rem;
+      font-family: "Space Grotesk", Inter, Arial, sans-serif;
+    }
+
+    .screens {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .screen {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      background: rgba(27, 27, 28, 0.95);
+      border: 1px solid rgba(255, 215, 155, 0.08);
+      border-radius: 12px;
+      padding: 18px;
+      transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+    }
+
+    .screen:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255, 215, 155, 0.26);
+      background: rgba(42, 42, 42, 0.95);
+    }
+
+    .screen span {
+      display: inline-block;
+      font-size: 0.78rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .screen h2 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .screen p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 0.95rem;
+    }
+
+    .notes {
+      margin-top: 34px;
+      padding: 20px;
+      background: rgba(27, 27, 28, 0.88);
+      border-left: 4px solid var(--accent-2);
+      color: var(--muted);
+      line-height: 1.7;
+      border-radius: 8px;
+    }
+
+    code {
+      color: var(--text);
+      font-family: "SFMono-Regular", Consolas, monospace;
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="eyebrow">Web Prototype Intake</div>
+      <h1>Industrial inventory screens selected from the Stitch export.</h1>
+      <p class="lede">
+        I kept the screens that directly map to your course app: login, dashboard, inventory, add-item,
+        sell-product, and low-stock alerts. The screenshots were excluded because the HTML files already
+        contain the actual UI markup we can build from.
+      </p>
+
+      <div class="summary">
+        <div class="metric">
+          <div class="metric-label">Design Direction</div>
+          <strong>Industrial operations terminal</strong>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Best Use</div>
+          <strong>Reference + future web UI build</strong>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Scope Kept</div>
+          <strong>6 core screens</strong>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Suggested Next Step</div>
+          <strong>Convert into one connected app</strong>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="eyebrow">Selected Screens</div>
+      <div class="screens">
+        <a class="screen" href="./stitch-screens/login.html">
+          <span>01</span>
+          <h2>Terminal Login</h2>
+          <p>Role-based entry screen that fits your Admin and Cashier flow well.</p>
+        </a>
+        <a class="screen" href="./stitch-screens/dashboard.html">
+          <span>02</span>
+          <h2>Operational Dashboard</h2>
+          <p>Strong base for total products, inventory value, top stock items, and summary widgets.</p>
+        </a>
+        <a class="screen" href="./stitch-screens/inventory.html">
+          <span>03</span>
+          <h2>Inventory Registry</h2>
+          <p>Closest match to the product list, category chips, quantities, and sorting controls.</p>
+        </a>
+        <a class="screen" href="./stitch-screens/add-item.html">
+          <span>04</span>
+          <h2>Add New Item</h2>
+          <p>Good structure for Electronics and Clothing form entry with extra attributes.</p>
+        </a>
+        <a class="screen" href="./stitch-screens/transactions.html">
+          <span>05</span>
+          <h2>Transaction Terminal</h2>
+          <p>Useful for the sell-product flow and cashier-facing interactions.</p>
+        </a>
+        <a class="screen" href="./stitch-screens/alerts.html">
+          <span>06</span>
+          <h2>Critical Stock Alerts</h2>
+          <p>Keeps the low-stock warning panel visible as a dedicated operational screen.</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="notes">
+      These screens are currently preserved as raw Stitch HTML references under
+      <code>web/stitch-screens/</code>. They are useful for design direction right now, but they are not yet
+      a connected application. When you want, I can turn this into a real web version with shared navigation,
+      reusable styling, inventory data, role-based login, and forms powered by JavaScript.
+    </section>
+  </main>
+</body>
+</html>

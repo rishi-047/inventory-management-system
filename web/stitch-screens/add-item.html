@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add Product - Industrial Inventory Terminal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed": "#281900",
+                      "secondary-container": "#00761f",
+                      "error-container": "#93000a",
+                      "surface-dim": "#131313",
+                      "surface-variant": "#353535",
+                      "on-secondary-fixed": "#002204",
+                      "on-error-container": "#ffdad6",
+                      "inverse-on-surface": "#303030",
+                      "on-primary": "#432c00",
+                      "surface-container-low": "#1b1b1c",
+                      "on-tertiary-fixed": "#400013",
+                      "outline-variant": "#514532",
+                      "on-surface": "#e5e2e1",
+                      "inverse-surface": "#e5e2e1",
+                      "secondary-fixed-dim": "#78dc77",
+                      "on-tertiary-fixed-variant": "#7e273b",
+                      "on-primary-fixed-variant": "#604100",
+                      "on-secondary": "#00390a",
+                      "on-secondary-container": "#95fb92",
+                      "secondary-fixed": "#94f990",
+                      "primary": "#ffd79b",
+                      "on-secondary-fixed-variant": "#005313",
+                      "primary-container": "#ffb300",
+                      "on-primary-container": "#6b4900",
+                      "surface-bright": "#393939",
+                      "primary-fixed": "#ffdeac",
+                      "background": "#131313",
+                      "secondary": "#78dc77",
+                      "on-error": "#690005",
+                      "tertiary-fixed": "#ffd9dd",
+                      "surface-container-high": "#2a2a2a",
+                      "surface-container": "#202020",
+                      "on-surface-variant": "#d6c4ac",
+                      "surface-container-highest": "#353535",
+                      "tertiary": "#ffd2d7",
+                      "tertiary-fixed-dim": "#ffb2bc",
+                      "surface": "#131313",
+                      "tertiary-container": "#ffaab6",
+                      "on-background": "#e5e2e1",
+                      "primary-fixed-dim": "#ffba38",
+                      "inverse-primary": "#7e5700",
+                      "on-tertiary-container": "#892f43",
+                      "outline": "#9e8e78",
+                      "on-tertiary": "#600f26",
+                      "error": "#ffb4ab",
+                      "surface-tint": "#ffba38",
+                      "surface-container-lowest": "#0e0e0e"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {},
+              "fontFamily": {
+                      "headline": [
+                              "Space Grotesk"
+                      ],
+                      "body": [
+                              "Inter"
+                      ],
+                      "label": [
+                              "Inter"
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+          .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+          }
+          .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+          }
+          
+          /* Industrial Input Focus Indicator */
+          input:focus-within, textarea:focus-within, select:focus-within {
+              position: relative;
+          }
+          .input-wrapper {
+              position: relative;
+          }
+          .input-wrapper:focus-within::before {
+              content: '';
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 2px;
+              height: 100%;
+              background-color: #ffd79b; /* primary color */
+              z-index: 10;
+          }
+      </style>
+</head>
+<body class="bg-surface text-on-surface font-body antialiased min-h-screen flex overflow-hidden">
+<!-- SideNavBar (from JSON) -->
+<nav class="hidden md:flex flex-col h-screen py-8 space-y-2 border-r border-[#353535]/10 bg-[#1b1b1c] w-64 docked left-0 z-50 shrink-0">
+<!-- Header -->
+<div class="px-6 pb-6 border-b border-[#353535]/10 mb-4">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary text-xl" data-weight="fill">token</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline font-bold text-primary tracking-widest text-sm uppercase">MAIN_TERMINAL</span>
+<span class="font-label text-[10px] text-on-surface/50 tracking-widest uppercase">SECTOR_07_WHSE</span>
+</div>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 overflow-y-auto px-2 space-y-1">
+<a class="text-[#e5e2e1]/60 px-4 py-3 flex items-center gap-3 font-['Inter'] uppercase text-[11px] tracking-widest font-semibold hover:bg-[#2a2a2a] hover:text-[#e5e2e1] transition-colors rounded-sm" href="#">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+                DASHBOARD
+            </a>
+<a class="text-[#e5e2e1]/60 px-4 py-3 flex items-center gap-3 font-['Inter'] uppercase text-[11px] tracking-widest font-semibold hover:bg-[#2a2a2a] hover:text-[#e5e2e1] transition-colors rounded-sm" href="#">
+<span class="material-symbols-outlined text-lg">inventory_2</span>
+                INVENTORY
+            </a>
+<a class="bg-[#2a2a2a] text-[#ffd79b] border-l-4 border-[#ffb300] px-4 py-3 flex items-center gap-3 font-['Inter'] uppercase text-[11px] tracking-widest font-semibold translate-x-1 transition-transform rounded-sm" href="#">
+<span class="material-symbols-outlined text-lg" data-weight="fill">add_box</span>
+                NEW_ENTRY
+            </a>
+<a class="text-[#e5e2e1]/60 px-4 py-3 flex items-center gap-3 font-['Inter'] uppercase text-[11px] tracking-widest font-semibold hover:bg-[#2a2a2a] hover:text-[#e5e2e1] transition-colors rounded-sm" href="#">
+<span class="material-symbols-outlined text-lg">point_of_sale</span>
+                TRANSACTIONS
+            </a>
+<a class="text-[#e5e2e1]/60 px-4 py-3 flex items-center gap-3 font-['Inter'] uppercase text-[11px] tracking-widest font-semibold hover:bg-[#2a2a2a] hover:text-[#e5e2e1] transition-colors rounded-sm" href="#">
+<span class="material-symbols-outlined text-lg">warning</span>
+                ALERTS
+            </a>
+<a class="text-[#e5e2e1]/60 px-4 py-3 flex items-center gap-3 font-['Inter'] uppercase text-[11px] tracking-widest font-semibold hover:bg-[#2a2a2a] hover:text-[#e5e2e1] transition-colors rounded-sm" href="#">
+<span class="material-symbols-outlined text-lg">analytics</span>
+                REPORTS
+            </a>
+</div>
+<!-- CTA & Footer -->
+<div class="px-4 mt-auto pt-4 space-y-4">
+<button class="w-full bg-primary/10 border border-primary/20 text-primary py-2 px-4 rounded-sm flex items-center justify-center gap-2 font-label text-[11px] tracking-widest uppercase hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-sm">qr_code_scanner</span>
+                SCAN_BARCODE
+            </button>
+<div class="space-y-1 border-t border-[#353535]/10 pt-4">
+<a class="text-[#e5e2e1]/60 px-4 py-2 flex items-center gap-3 font-['Inter'] uppercase text-[10px] tracking-widest font-semibold hover:bg-[#2a2a2a] hover:text-[#e5e2e1] transition-colors rounded-sm" href="#">
+<span class="material-symbols-outlined text-sm">help_outline</span>
+                    HELP
+                </a>
+<a class="text-[#e5e2e1]/60 px-4 py-2 flex items-center gap-3 font-['Inter'] uppercase text-[10px] tracking-widest font-semibold hover:bg-[#2a2a2a] hover:text-[#e5e2e1] transition-colors rounded-sm" href="#">
+<span class="material-symbols-outlined text-sm">terminal</span>
+                    LOGS
+                </a>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-screen overflow-y-auto bg-surface relative">
+<!-- TopNavBar (from JSON) -->
+<header class="flex justify-between items-center w-full px-6 py-3 border-b border-[#353535]/20 bg-[#131313] docked full-width top-0 z-50 shrink-0">
+<div class="flex items-center gap-6">
+<span class="font-black uppercase tracking-widest text-[#ffd79b] text-xl font-headline hidden md:block">OPS-CONTROL-V1</span>
+<!-- Search Bar (on_left as per JSON) -->
+<div class="input-wrapper relative hidden md:block w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface/50 text-sm">search</span>
+<input class="w-full bg-surface-container-high border-none rounded-sm py-1.5 pl-9 pr-3 text-sm text-on-surface placeholder:text-on-surface/30 focus:ring-0 focus:outline-none font-body" placeholder="QUERY_DATABASE..." type="text"/>
+</div>
+</div>
+<!-- Navigation Links (Top) -->
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-[#e5e2e1] opacity-70 font-['Space_Grotesk'] tracking-tight text-sm hover:bg-[#2a2a2a] transition-colors px-2 py-1 rounded-sm" href="#">SYSTEM_LOGS</a>
+<a class="text-[#e5e2e1] opacity-70 font-['Space_Grotesk'] tracking-tight text-sm hover:bg-[#2a2a2a] transition-colors px-2 py-1 rounded-sm" href="#">TERMINALS</a>
+</nav>
+<div class="flex items-center gap-4">
+<!-- Icon Actions -->
+<div class="flex items-center gap-2 border-r border-[#353535]/20 pr-4">
+<button class="p-1.5 text-on-surface/70 hover:bg-[#2a2a2a] rounded-sm transition-colors relative">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+<button class="p-1.5 text-on-surface/70 hover:bg-[#2a2a2a] rounded-sm transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+</div>
+<!-- Text Actions & Profile -->
+<div class="flex items-center gap-3">
+<button class="hidden md:block text-xs font-label text-on-surface/60 hover:text-primary transition-colors tracking-wider uppercase">SWITCH_ROLE</button>
+<button class="hidden md:block text-xs font-label text-error hover:text-error/80 transition-colors tracking-wider uppercase">LOG_OUT</button>
+<div class="w-8 h-8 rounded-sm bg-surface-container-highest overflow-hidden border border-outline-variant/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface/50">person</span>
+</div>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<div class="flex-1 p-6 lg:p-10 lg:max-w-6xl mx-auto w-full">
+<!-- Page Header -->
+<div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="font-headline text-3xl font-bold text-on-surface mb-2">Initialize Entry</h1>
+<p class="font-body text-sm text-on-surface/60">Input new asset parameters into the main ledger. Fields marked with <span class="text-primary">*</span> are mandatory.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 rounded-sm border border-outline-variant/30 text-primary font-label text-xs uppercase tracking-widest hover:bg-surface-container-high transition-colors">CANCEL</button>
+<button class="px-6 py-2 rounded-sm bg-primary text-on-primary font-label text-xs uppercase tracking-widest font-bold hover:bg-primary-container transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">save</span>
+                        COMMIT_RECORD
+                    </button>
+</div>
+</div>
+<!-- Bento Form Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Main Form Column (Col 8) -->
+<div class="lg:col-span-8 space-y-6">
+<!-- Basic Info Block -->
+<section class="bg-surface-container-low p-6 rounded-md relative group">
+<!-- Scanner Corner Detail -->
+<div class="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-outline/30 rounded-tl-md"></div>
+<div class="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-outline/30 rounded-tr-md"></div>
+<h2 class="font-headline text-sm uppercase tracking-widest text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">info</span>
+                             CORE_IDENTIFIERS
+                         </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<!-- Item Name -->
+<div class="md:col-span-2 space-y-1.5 input-wrapper">
+<label class="font-label text-[10px] text-on-surface/50 tracking-widest uppercase block">ASSET_DESIGNATION <span class="text-primary">*</span></label>
+<input class="w-full bg-surface-container-highest border-none rounded-sm py-2.5 px-3 text-sm text-on-surface placeholder:text-on-surface/30 focus:ring-0 focus:outline-none font-body" placeholder="e.g. Industrial Servo Motor XL" type="text"/>
+</div>
+<!-- SKU / Serial -->
+<div class="space-y-1.5 input-wrapper">
+<label class="font-label text-[10px] text-on-surface/50 tracking-widest uppercase block">SKU_ID <span class="text-primary">*</span></label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface/40 font-mono text-xs">#</span>
+<input class="w-full bg-surface-container-highest border-none rounded-sm py-2.5 pl-7 pr-3 text-sm text-on-surface placeholder:text-on-surface/30 focus:ring-0 focus:outline-none font-mono uppercase" placeholder="000-000-000" type="text"/>
+</div>
+</div>
+<!-- Barcode / UPC -->
+<div class="space-y-1.5 input-wrapper">
+<label class="font-label text-[10px] text-on-surface/50 tracking-widest uppercase block flex justify-between">
+<span>BARCODE_UPC</span>
+<button class="text-primary hover:text-primary-container"><span class="material-symbols-outlined text-[14px]">qr_code_scanner</span></button>
+</label>
+<input class="w-full bg-surface-container-highest border-none rounded-sm py-2.5 px-3 text-sm text-on-surface placeholder:text-on-surface/30 focus:ring-0 focus:outline-none font-mono" placeholder="Scan or enter manually" type="text"/>
+</div>
+<!-- Description -->
+<div class="md:col-span-2 space-y-1.5 input-wrapper">
+<label class="font-label text-[10px] text-on-surface/50 tracking-widest uppercase block">TECHNICAL_SPECS</label>
+<textarea class="w-full bg-surface-container-highest border-none rounded-sm py-2.5 px-3 text-sm text-on-surface placeholder:text-on-surface/30 focus:ring-0 focus:outline-none font-body resize-none" placeholder="Enter detailed specifications..." rows="3"></textarea>
+</div>
+</div>
+</section>
+<!-- Inventory & Pricing Block -->
+<section class="bg-surface-container-low p-6 rounded-md relative">
+<div class="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-outline/30 rounded-tl-md"></div>
+<h2 class="font-headline text-sm uppercase tracking-widest text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">inventory</span>
+                             STOCK_AND_VALUATION
+                         </h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<!-- Initial Stock -->
+<div class="space-y-1.5 input-wrapper">
+<label class="font-label text-[10px] text-on-surface/50 tracking-widest uppercase block">INITIAL_QTY <span class="text-primary">*</span></label>
+<input class="w-full bg-surface-container-highest border-none rounded-sm py-2.5 px-3 text-sm text-on-surface placeholder:text-on-surface/30 focus:ring-0 focus:outline-none font-mono tabular-nums text-right" min="0" type="number" value="0"/>
+</div>
+<!-- Unit Cost -->
+<div class="space-y-1.5 input-wrapper">
+<label class="font-label text-[10px] text-on-surface/50 tracking-widest uppercase block">UNIT_COST</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface/40 text-xs">$</span>
+<input class="w-full bg-surface-container-highest border-none rounded-sm py-2.5 pl-7 pr-3 text-sm text-on-surface placeholder:text-on-surface/30 focus:ring-0 focus:outline-none font-mono tabular-nums text-right" placeholder="0.00" step="0.01" type="number"/>
+</div>
+</div>
+<!-- Retail Price -->
+<div class="space-y-1.5 input-wrapper">
+<label class="font-label text-[10px] text-on-surface/50 tracking-widest uppercase block">RETAIL_VAL</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface/40 text-xs">$</span>
+<input class="w-full bg-surface-container-highest border-none rounded-sm py-2.5 pl-7 pr-3 text-sm text-on-surface placeholder:text-on-surface/30 focus:ring-0 focus:outline-none font-mono tabular-nums text-right" placeholder="0.00" step="0.01" type="number"/>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Side Panel (Col 4) -->
+<div class="lg:col-span-4 space-y-6">
+<!-- Classification Block -->
+<section class="bg-surface-container-low p-6 rounded-md relative">
+<div class="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-outline/30 rounded-tr-md"></div>
+<h2 class="font-headline text-sm uppercase tracking-widest text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">category</span>
+                             CLASSIFICATION
+                         </h2>
+<div class="space-y-5">
+<!-- Category Select -->
+<div class="space-y-1.5 input-wrapper">
+<label class="font-label text-[10px] text-on-surface/50 tracking-widest uppercase block">PRIMARY_CATEGORY</label>
+<div class="relative">
+<select class="w-full bg-surface-container-highest border-none rounded-sm py-2.5 pl-3 pr-8 text-sm text-on-surface appearance-none focus:ring-0 focus:outline-none font-body">
+<option value="">Select Class...</option>
+<option value="electronics">ELECTRONICS_MODULES</option>
+<option value="hardware">HEAVY_HARDWARE</option>
+<option value="apparel">GEAR_AND_APPAREL</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-on-surface/50 pointer-events-none">arrow_drop_down</span>
+</div>
+</div>
+<!-- Zone Location -->
+<div class="space-y-1.5 input-wrapper">
+<label class="font-label text-[10px] text-on-surface/50 tracking-widest uppercase block">WAREHOUSE_ZONE</label>
+<div class="relative">
+<select class="w-full bg-surface-container-highest border-none rounded-sm py-2.5 pl-3 pr-8 text-sm text-on-surface appearance-none focus:ring-0 focus:outline-none font-body">
+<option value="A1">SEC_ALPHA_01</option>
+<option value="B2">SEC_BETA_02</option>
+<option value="C3">SEC_GAMMA_03</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-on-surface/50 pointer-events-none">arrow_drop_down</span>
+</div>
+</div>
+<!-- Dynamic Fields Area (Simulated active state for Electronics) -->
+<div class="pt-4 mt-2 border-t border-surface-variant/50">
+<p class="font-label text-[10px] text-primary tracking-widest uppercase mb-3">CLASS_SPECIFIC_VARS</p>
+<div class="space-y-4">
+<div class="space-y-1.5 input-wrapper">
+<label class="font-label text-[10px] text-on-surface/50 tracking-widest uppercase block">WARRANTY_MONTHS</label>
+<input class="w-full bg-surface-container-highest border-none rounded-sm py-2 px-3 text-sm text-on-surface placeholder:text-on-surface/30 focus:ring-0 focus:outline-none font-mono tabular-nums" type="number" value="12"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Image Upload Stub -->
+<section class="bg-surface-container-low p-6 rounded-md relative border border-dashed border-outline-variant/30 flex flex-col items-center justify-center text-center h-48 hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center mb-3 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-primary text-xl">add_photo_alternate</span>
+</div>
+<h3 class="font-label text-xs uppercase tracking-widest text-on-surface mb-1">UPLOAD_ASSET_IMG</h3>
+<p class="font-label text-[10px] text-on-surface/40 max-w-[150px]">JPEG/PNG. MAX 5MB. HIGHEST RES PREFERRED.</p>
+</section>
+</div>
+</div>
+</div>
+</main>
+</body></html>

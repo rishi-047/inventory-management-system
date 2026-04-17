@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Low-Stock Warning Panel - OPS-CONTROL-V1</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&amp;family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#281900",
+                        "secondary-container": "#00761f",
+                        "error-container": "#93000a",
+                        "surface-dim": "#131313",
+                        "surface-variant": "#353535",
+                        "on-secondary-fixed": "#002204",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#303030",
+                        "on-primary": "#432c00",
+                        "surface-container-low": "#1b1b1c",
+                        "on-tertiary-fixed": "#400013",
+                        "outline-variant": "#514532",
+                        "on-surface": "#e5e2e1",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary-fixed-dim": "#78dc77",
+                        "on-tertiary-fixed-variant": "#7e273b",
+                        "on-primary-fixed-variant": "#604100",
+                        "on-secondary": "#00390a",
+                        "on-secondary-container": "#95fb92",
+                        "secondary-fixed": "#94f990",
+                        "primary": "#ffd79b",
+                        "on-secondary-fixed-variant": "#005313",
+                        "primary-container": "#ffb300",
+                        "on-primary-container": "#6b4900",
+                        "surface-bright": "#393939",
+                        "primary-fixed": "#ffdeac",
+                        "background": "#131313",
+                        "secondary": "#78dc77",
+                        "on-error": "#690005",
+                        "tertiary-fixed": "#ffd9dd",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-container": "#202020",
+                        "on-surface-variant": "#d6c4ac",
+                        "surface-container-highest": "#353535",
+                        "tertiary": "#ffd2d7",
+                        "tertiary-fixed-dim": "#ffb2bc",
+                        "surface": "#131313",
+                        "tertiary-container": "#ffaab6",
+                        "on-background": "#e5e2e1",
+                        "primary-fixed-dim": "#ffba38",
+                        "inverse-primary": "#7e5700",
+                        "on-tertiary-container": "#892f43",
+                        "outline": "#9e8e78",
+                        "on-tertiary": "#600f26",
+                        "error": "#ffb4ab",
+                        "surface-tint": "#ffba38",
+                        "surface-container-lowest": "#0e0e0e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body h-screen flex overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<nav class="bg-[#1b1b1c] docked h-screen left-0 w-64 flex flex-col h-full py-8 space-y-2 border-r border-[#353535]/10 hidden md:flex z-40">
+<!-- Header -->
+<div class="px-6 mb-8 flex flex-col gap-2">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-surface-container-highest rounded flex items-center justify-center border border-outline-variant/15">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">router</span>
+</div>
+<div>
+<h1 class="text-[#ffd79b] font-bold font-headline tracking-tight text-sm">MAIN_TERMINAL</h1>
+<p class="font-['Inter'] uppercase text-[11px] tracking-widest font-semibold text-on-surface/60">SECTOR_07_WHSE</p>
+</div>
+</div>
+<button class="mt-4 bg-primary text-on-primary rounded-md px-4 py-2 font-label text-sm font-bold w-full hover:bg-primary-container transition-colors shadow-[0_0_15px_rgba(255,215,155,0.1)] flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">qr_code_scanner</span>
+                SCAN_BARCODE
+            </button>
+</div>
+<!-- Main Navigation -->
+<div class="flex-1 space-y-1">
+<a class="text-[#e5e2e1]/60 px-4 py-3 flex items-center gap-3 font-['Inter'] uppercase text-[11px] tracking-widest font-semibold hover:bg-[#2a2a2a] hover:text-[#e5e2e1] transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">dashboard</span>
+                DASHBOARD
+            </a>
+<a class="text-[#e5e2e1]/60 px-4 py-3 flex items-center gap-3 font-['Inter'] uppercase text-[11px] tracking-widest font-semibold hover:bg-[#2a2a2a] hover:text-[#e5e2e1] transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">inventory_2</span>
+                INVENTORY
+            </a>
+<a class="text-[#e5e2e1]/60 px-4 py-3 flex items-center gap-3 font-['Inter'] uppercase text-[11px] tracking-widest font-semibold hover:bg-[#2a2a2a] hover:text-[#e5e2e1] transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">add_box</span>
+                NEW_ENTRY
+            </a>
+<a class="text-[#e5e2e1]/60 px-4 py-3 flex items-center gap-3 font-['Inter'] uppercase text-[11px] tracking-widest font-semibold hover:bg-[#2a2a2a] hover:text-[#e5e2e1] transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">point_of_sale</span>
+                TRANSACTIONS
+            </a>
+<!-- Active State -->
+<a class="bg-[#2a2a2a] text-[#ffd79b] border-l-4 border-[#ffb300] px-4 py-3 flex items-center gap-3 font-['Inter'] uppercase text-[11px] tracking-widest font-semibold translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">warning</span>
+                ALERTS
+            </a>
+<a class="text-[#e5e2e1]/60 px-4 py-3 flex items-center gap-3 font-['Inter'] uppercase text-[11px] tracking-widest font-semibold hover:bg-[#2a2a2a] hover:text-[#e5e2e1] transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">analytics</span>
+                REPORTS
+            </a>
+</div>
+<!-- Footer Navigation -->
+<div class="mt-auto space-y-1">
+<a class="text-[#e5e2e1]/60 px-4 py-3 flex items-center gap-3 font-['Inter'] uppercase text-[11px] tracking-widest font-semibold hover:bg-[#2a2a2a] hover:text-[#e5e2e1] transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">help_outline</span>
+                HELP
+            </a>
+<a class="text-[#e5e2e1]/60 px-4 py-3 flex items-center gap-3 font-['Inter'] uppercase text-[11px] tracking-widest font-semibold hover:bg-[#2a2a2a] hover:text-[#e5e2e1] transition-colors" href="#">
+<span class="material-symbols-outlined text-lg">terminal</span>
+                LOGS
+            </a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col h-full overflow-hidden bg-surface relative">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-[#131313] flex justify-between items-center w-full px-6 py-3 border-b border-[#353535]/20 docked full-width top-0 z-50">
+<!-- Brand / Search -->
+<div class="flex items-center gap-8 flex-1">
+<div class="font-black uppercase tracking-widest text-[#ffd79b] text-xl font-headline hidden md:block">
+                    OPS-CONTROL-V1
+                </div>
+<!-- Search Bar (on_left) -->
+<div class="relative max-w-md w-full bg-surface-container-highest rounded-md border border-outline-variant/15 flex items-center px-3 py-1.5 group focus-within:border-primary/50 transition-colors">
+<div class="absolute left-0 top-0 bottom-0 w-0.5 bg-primary opacity-0 group-focus-within:opacity-100 transition-opacity rounded-tl-md rounded-bl-md"></div>
+<span class="material-symbols-outlined text-on-surface-variant mr-2 text-sm">search</span>
+<input class="bg-transparent border-none text-sm text-on-surface focus:ring-0 w-full placeholder-on-surface-variant/50 font-label tracking-wide uppercase py-1" placeholder="QUERY_SYSTEM..." type="text"/>
+</div>
+</div>
+<!-- Navigation Links (Center-ish) -->
+<nav class="hidden lg:flex items-center gap-6 mx-8">
+<a class="text-[#e5e2e1] opacity-70 font-['Space_Grotesk'] tracking-tight text-sm hover:bg-[#2a2a2a] transition-colors px-2 py-1 rounded" href="#">SYSTEM_LOGS</a>
+<a class="text-[#e5e2e1] opacity-70 font-['Space_Grotesk'] tracking-tight text-sm hover:bg-[#2a2a2a] transition-colors px-2 py-1 rounded" href="#">TERMINALS</a>
+</nav>
+<!-- Actions -->
+<div class="flex items-center gap-4 flex-1 justify-end">
+<div class="hidden md:flex items-center gap-2">
+<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors rounded hover:bg-surface-container-high">
+<span class="material-symbols-outlined text-lg">notifications</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-primary transition-colors rounded hover:bg-surface-container-high">
+<span class="material-symbols-outlined text-lg">settings</span>
+</button>
+</div>
+<div class="h-6 w-px bg-surface-variant mx-2 hidden md:block"></div>
+<button class="text-sm font-label uppercase tracking-widest text-on-surface/80 hover:text-primary transition-colors hidden md:block border border-outline-variant/15 px-3 py-1.5 rounded-md hover:bg-surface-container-low">
+                    SWITCH_ROLE
+                </button>
+<button class="text-sm font-label uppercase tracking-widest text-primary font-bold hover:text-primary-container transition-colors hidden md:block px-3 py-1.5">
+                    LOG_OUT
+                </button>
+<!-- Profile Avatar -->
+<div class="w-8 h-8 rounded bg-surface-container-high border border-outline-variant/30 flex items-center justify-center overflow-hidden ml-2 relative">
+<img alt="ADMIN_AVATAR" class="w-full h-full object-cover grayscale mix-blend-luminosity opacity-80" data-alt="close up of a middle aged man with serious expression in high contrast lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2qyEIuHWDPrMe5wBNvp6r_xCdGkHpLLBaAdi0h5rF5Byel98cn5bqCq-bbJiXRLqGJgGKoIdSl4hiAApR4_TVUiTWasePYHF7y3TgPA1Ffn-lq6xXZOrdfaJcIS5I2DyAMIuNmYaqzCNQS8M9FTSbyfzxt3RSR-Wiudwkb7aKbPAmMdIkL7LaUArmePQ_HTJ5bbuH87uZG_1103uxhoiCwG2gGKy-endhcfIY67Jv0GLaAl3U3a0zMbM4aow_hli45WtBAKr80go"/>
+</div>
+</div>
+</header>
+<!-- Main Canvas: Low Stock Warning Panel -->
+<main class="flex-1 overflow-y-auto p-4 md:p-8">
+<!-- Page Header -->
+<div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h2 class="font-headline text-display-sm font-bold text-error tracking-tight flex items-center gap-3">
+<span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">warning</span>
+                        CRITICAL_STOCK_ALERTS
+                    </h2>
+<p class="font-label text-sm text-on-surface-variant mt-1 uppercase tracking-widest">System generated report: 4 items below minimum threshold</p>
+</div>
+<div class="flex gap-3">
+<button class="border border-outline-variant/30 text-on-surface px-4 py-2 rounded-md font-label text-sm uppercase tracking-wider hover:bg-surface-container-low transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">print</span>
+                        EXPORT_MANIFEST
+                    </button>
+<button class="bg-error text-on-error px-4 py-2 rounded-md font-label text-sm font-bold uppercase tracking-wider hover:bg-error-container hover:text-on-error-container transition-colors shadow-[0_0_20px_rgba(255,180,171,0.1)] flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">inventory</span>
+                        EMERGENCY_REORDER_ALL
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Layout for Alerts -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+<!-- Left Column: Critical Item Detail (Featured) -->
+<div class="xl:col-span-2 space-y-6">
+<!-- Highest Priority Card -->
+<div class="bg-surface-container-high rounded-md relative overflow-hidden group">
+<!-- Red Alert Strip -->
+<div class="absolute left-0 top-0 bottom-0 w-2 bg-error"></div>
+<!-- Corner Scanner Brackets -->
+<div class="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-error/50"></div>
+<div class="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-error/50"></div>
+<div class="p-6 pl-8">
+<div class="flex justify-between items-start mb-6">
+<div class="flex items-center gap-3">
+<div class="bg-error-container/30 border border-error/20 p-2 rounded">
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">precision_manufacturing</span>
+</div>
+<div>
+<div class="font-label text-xs text-error font-bold uppercase tracking-widest mb-1">STOCK OUT IMMINENT</div>
+<h3 class="font-headline text-2xl font-bold text-on-surface">TITANIUM_VALVE_ASSEMBLY_X9</h3>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/30 px-3 py-1 rounded font-mono text-sm text-on-surface-variant flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+                                    SKU: TV-X9-8821
+                                </div>
+</div>
+<div class="grid grid-cols-3 gap-4 mb-8 bg-surface-container-lowest p-4 rounded border border-outline-variant/10">
+<div>
+<div class="font-label text-xs text-on-surface-variant uppercase tracking-widest mb-1">CURRENT_QTY</div>
+<div class="font-headline text-3xl font-bold text-error font-variant-numeric: tabular-nums">04</div>
+</div>
+<div>
+<div class="font-label text-xs text-on-surface-variant uppercase tracking-widest mb-1">MIN_THRESHOLD</div>
+<div class="font-headline text-3xl font-bold text-on-surface font-variant-numeric: tabular-nums">50</div>
+</div>
+<div>
+<div class="font-label text-xs text-on-surface-variant uppercase tracking-widest mb-1">LOC_ZONE</div>
+<div class="font-headline text-3xl font-bold text-primary font-variant-numeric: tabular-nums">Z-12</div>
+</div>
+</div>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-2 text-sm font-label text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                                    LAST_RESTOCK: 14_DAYS_AGO
+                                </div>
+<div class="flex gap-3">
+<button class="border border-outline-variant/30 text-primary px-4 py-2 rounded-md font-label text-sm uppercase tracking-wider hover:bg-surface-container-low transition-colors">
+                                        VIEW_SUPPLIER
+                                    </button>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-md font-label text-sm font-bold uppercase tracking-wider hover:bg-primary-container transition-colors shadow-[0_0_15px_rgba(255,215,155,0.15)] flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+                                        REORDER_NOW
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Alert List (Bento Row) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Alert Item 1 -->
+<div class="bg-surface-container-high rounded-md relative overflow-hidden border border-outline-variant/10 hover:border-outline-variant/30 transition-colors">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary"></div>
+<div class="p-5 pl-7">
+<div class="flex justify-between items-start mb-4">
+<div>
+<div class="font-label text-[10px] text-primary font-bold uppercase tracking-widest mb-1">BELOW MINIMUM</div>
+<h4 class="font-headline text-lg font-bold text-on-surface truncate pr-2">INDUSTRIAL_LUBRICANT_V2</h4>
+</div>
+<span class="font-mono text-xs text-on-surface-variant">SKU: IL-V2-009</span>
+</div>
+<div class="flex items-end justify-between mb-5">
+<div class="bg-surface-container p-2 rounded flex gap-4 border border-outline-variant/5">
+<div>
+<div class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">QTY</div>
+<div class="font-headline text-xl font-bold text-primary tabular-nums">12</div>
+</div>
+<div>
+<div class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">MIN</div>
+<div class="font-headline text-xl font-bold text-on-surface/50 tabular-nums">30</div>
+</div>
+</div>
+<div class="text-right">
+<div class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest mb-0.5">ZONE</div>
+<div class="font-mono text-sm text-on-surface font-bold">A-04</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 bg-surface-container-lowest border border-outline-variant/20 text-on-surface px-2 py-1.5 rounded text-xs font-label uppercase tracking-wider hover:bg-surface-container-low transition-colors">
+                                        DETAILS
+                                    </button>
+<button class="flex-1 border border-primary/50 text-primary px-2 py-1.5 rounded text-xs font-label uppercase tracking-wider hover:bg-primary/10 transition-colors">
+                                        REORDER
+                                    </button>
+</div>
+</div>
+</div>
+<!-- Alert Item 2 -->
+<div class="bg-surface-container-high rounded-md relative overflow-hidden border border-outline-variant/10 hover:border-outline-variant/30 transition-colors">
+<div class="absolute left-0 top-0 bottom-0 w-1.5 bg-primary"></div>
+<div class="p-5 pl-7">
+<div class="flex justify-between items-start mb-4">
+<div>
+<div class="font-label text-[10px] text-primary font-bold uppercase tracking-widest mb-1">BELOW MINIMUM</div>
+<h4 class="font-headline text-lg font-bold text-on-surface truncate pr-2">CARBON_FIBER_SHEETING</h4>
+</div>
+<span class="font-mono text-xs text-on-surface-variant">SKU: CF-SH-44</span>
+</div>
+<div class="flex items-end justify-between mb-5">
+<div class="bg-surface-container p-2 rounded flex gap-4 border border-outline-variant/5">
+<div>
+<div class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">QTY</div>
+<div class="font-headline text-xl font-bold text-primary tabular-nums">08</div>
+</div>
+<div>
+<div class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">MIN</div>
+<div class="font-headline text-xl font-bold text-on-surface/50 tabular-nums">20</div>
+</div>
+</div>
+<div class="text-right">
+<div class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest mb-0.5">ZONE</div>
+<div class="font-mono text-sm text-on-surface font-bold">C-19</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 bg-surface-container-lowest border border-outline-variant/20 text-on-surface px-2 py-1.5 rounded text-xs font-label uppercase tracking-wider hover:bg-surface-container-low transition-colors">
+                                        DETAILS
+                                    </button>
+<button class="flex-1 border border-primary/50 text-primary px-2 py-1.5 rounded text-xs font-label uppercase tracking-wider hover:bg-primary/10 transition-colors">
+                                        REORDER
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Status & Suppliers -->
+<div class="space-y-6">
+<!-- Supplier Status Panel -->
+<div class="bg-surface-container-low rounded-md border border-outline-variant/10 p-5">
+<h3 class="font-headline text-lg font-bold text-on-surface mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">local_shipping</span>
+                            SUPPLIER_STATUS
+                        </h3>
+<div class="space-y-4">
+<!-- Supplier 1 -->
+<div class="bg-surface-container-lowest p-3 rounded border border-outline-variant/5">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label text-sm font-bold text-on-surface">APEX_METALS_CORP</span>
+<span class="bg-secondary-container/20 text-secondary-fixed text-[10px] px-2 py-0.5 rounded uppercase font-bold tracking-widest">ONLINE</span>
+</div>
+<div class="flex justify-between text-xs text-on-surface-variant font-mono">
+<span>Lead Time: 48H</span>
+<span>Rating: 4.8/5</span>
+</div>
+</div>
+<!-- Supplier 2 -->
+<div class="bg-surface-container-lowest p-3 rounded border border-outline-variant/5">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label text-sm font-bold text-on-surface">CHEM_DYNAMICS_LLC</span>
+<span class="bg-primary/20 text-primary text-[10px] px-2 py-0.5 rounded uppercase font-bold tracking-widest">DELAYED</span>
+</div>
+<div class="flex justify-between text-xs text-on-surface-variant font-mono">
+<span>Lead Time: 72H+</span>
+<span>Rating: 3.9/5</span>
+</div>
+</div>
+</div>
+</div>
+<!-- System Diagnostics -->
+<div class="bg-surface-container-highest rounded-md p-5 border border-outline-variant/15">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline text-sm font-bold text-on-surface-variant uppercase tracking-widest">AUTO_REORDER_SYS</h3>
+<div class="w-8 h-4 bg-surface-container-lowest rounded-full border border-outline-variant/30 flex items-center px-0.5">
+<div class="w-3 h-3 bg-error rounded-full"></div>
+</div>
+</div>
+<p class="font-body text-sm text-on-surface-variant leading-relaxed mb-4">
+                            Automated purchasing is currently <span class="text-error font-bold">DISABLED</span> due to irregular market pricing. Manual override required for all critical restocks.
+                        </p>
+<button class="w-full border border-outline-variant/30 text-on-surface px-4 py-2 rounded-md font-label text-xs uppercase tracking-wider hover:bg-surface-container-low transition-colors">
+                            CONFIGURE_AUTO_BUY
+                        </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
