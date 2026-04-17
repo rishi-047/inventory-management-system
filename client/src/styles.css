@@ -897,6 +897,159 @@ textarea {
   border-color: rgba(255, 180, 171, 0.2);
 }
 
+.inventory-toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-end;
+}
+
+.inventory-toolbar-fields {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  flex: 1;
+}
+
+.toolbar-field span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.68rem;
+}
+
+.toolbar-field input,
+.toolbar-field select,
+.auth-input select {
+  width: 100%;
+  border: 1px solid rgba(255, 215, 155, 0.08);
+  border-radius: 12px;
+  background: rgba(53, 53, 53, 0.78);
+  color: var(--text);
+  padding: 12px 14px;
+  outline: none;
+}
+
+.toolbar-link-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  border-radius: 12px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-strong));
+  color: #432c00;
+  padding: 13px 18px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.inventory-error {
+  margin-bottom: 18px;
+}
+
+.inventory-table-wrap {
+  overflow-x: auto;
+}
+
+.inventory-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.inventory-table th,
+.inventory-table td {
+  padding: 16px 14px;
+  border-bottom: 1px solid rgba(255, 215, 155, 0.06);
+  text-align: left;
+}
+
+.inventory-table th {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.inventory-table td strong,
+.inventory-table td span {
+  display: block;
+}
+
+.inventory-table td span {
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.category-chip,
+.quantity-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 10px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.category-chip-electronics {
+  background: rgba(255, 215, 155, 0.14);
+  color: var(--accent);
+}
+
+.category-chip-clothing {
+  background: rgba(120, 220, 119, 0.14);
+  color: var(--good);
+}
+
+.quantity-pill {
+  background: rgba(120, 220, 119, 0.14);
+  color: var(--good);
+}
+
+.quantity-pill.is-low {
+  background: rgba(255, 180, 171, 0.16);
+  color: #ffb4ab;
+}
+
+.table-action {
+  border: 1px solid rgba(255, 215, 155, 0.16);
+  background: transparent;
+  color: var(--accent);
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.danger-action {
+  color: #ffb4ab;
+  border-color: rgba(255, 180, 171, 0.18);
+}
+
+.product-form .form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.product-form-actions {
+  margin-top: 18px;
+}
+
+.form-success {
+  margin-top: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  color: var(--good);
+  background: rgba(120, 220, 119, 0.1);
+  border: 1px solid rgba(120, 220, 119, 0.16);
+}
+
 @media (max-width: 1180px) {
   .metric-grid,
   .dashboard-grid {
@@ -919,6 +1072,17 @@ textarea {
 
   .app-sidebar {
     display: none;
+  }
+
+  .inventory-toolbar,
+  .inventory-toolbar-fields,
+  .product-form .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .inventory-toolbar {
+    flex-direction: column;
+    align-items: stretch;
   }
 }
 
