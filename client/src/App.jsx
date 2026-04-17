@@ -8,6 +8,7 @@ import DashboardPage from "./pages/DashboardPage";
 import InventoryPage from "./pages/InventoryPage";
 import LoginPage from "./pages/LoginPage";
 import TransactionsPage from "./pages/TransactionsPage";
+import UsersPage from "./pages/UsersPage";
 
 function App() {
   return (
@@ -53,6 +54,14 @@ function App() {
             <ProtectedRoute>
               <AlertsPage />
             </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <AdminRoute>
+              <UsersPage />
+            </AdminRoute>
           }
         />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />

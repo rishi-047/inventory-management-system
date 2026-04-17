@@ -1129,6 +1129,37 @@ textarea {
   line-height: 1.6;
 }
 
+.user-list {
+  display: grid;
+  gap: 14px;
+}
+
+.user-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: rgba(14, 14, 14, 0.4);
+  border: 1px solid rgba(255, 215, 155, 0.06);
+}
+
+.user-card strong,
+.user-card span {
+  display: block;
+}
+
+.user-card span {
+  margin-top: 4px;
+  color: var(--text-muted);
+}
+
+.user-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 @media (max-width: 1180px) {
   .metric-grid,
   .dashboard-grid {
