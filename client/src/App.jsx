@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
-import HoldingPage from "./pages/HoldingPage";
+import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage";
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <HoldingPage />
+              <DashboardPage />
             </ProtectedRoute>
           }
         />
