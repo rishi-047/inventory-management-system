@@ -4,7 +4,5 @@ inventory_app
 **/.idea/
 node_modules/
 dist/
-server/data/*.db
-server/data/*.sqlite
-server/data/*.sqlite3
+server/data/
 .env
