@@ -1,0 +1,111 @@
+:root {
+  color-scheme: dark;
+  --background: #131313;
+  --surface-lowest: #0e0e0e;
+  --surface-low: #1b1b1c;
+  --surface: #202020;
+  --surface-high: #2a2a2a;
+  --surface-highest: #353535;
+  --text: #e5e2e1;
+  --text-muted: #bcae99;
+  --accent: #ffd79b;
+  --accent-strong: #ffb300;
+  --good: #78dc77;
+  --outline: rgba(158, 142, 120, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(255, 179, 0, 0.18), transparent 32%),
+    linear-gradient(180deg, #181818 0%, var(--background) 100%);
+  color: var(--text);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.boot-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.boot-panel {
+  width: min(920px, 100%);
+  padding: 40px;
+  background: linear-gradient(180deg, rgba(42, 42, 42, 0.95), rgba(27, 27, 28, 0.95));
+  border: 1px solid var(--outline);
+  border-radius: 18px;
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
+}
+
+.boot-mark {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.boot-panel h1 {
+  margin: 0;
+  max-width: 760px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(2.6rem, 5vw, 4.75rem);
+  line-height: 0.94;
+}
+
+.boot-panel p {
+  max-width: 760px;
+  margin: 18px 0 0;
+  color: var(--text-muted);
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+
+.boot-grid {
+  margin-top: 28px;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.boot-grid article {
+  padding: 18px;
+  border-radius: 12px;
+  background: rgba(14, 14, 14, 0.65);
+  border: 1px solid rgba(255, 215, 155, 0.08);
+}
+
+.boot-grid span {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.boot-grid strong {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.05rem;
+  color: var(--accent);
+}
