@@ -1050,9 +1050,92 @@ textarea {
   border: 1px solid rgba(120, 220, 119, 0.16);
 }
 
+.transaction-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.transaction-summary div {
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(14, 14, 14, 0.48);
+  border: 1px solid rgba(255, 215, 155, 0.08);
+}
+
+.transaction-summary span,
+.alert-card span {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.transaction-summary strong {
+  display: block;
+  margin-top: 10px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.3rem;
+}
+
+.alerts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.alert-card {
+  padding: 18px;
+  border-radius: 16px;
+  background: rgba(42, 42, 42, 0.9);
+  border: 1px solid rgba(255, 180, 171, 0.16);
+}
+
+.alert-card-top,
+.alert-card-metrics {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.alert-card-top strong,
+.alert-card-metrics strong {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.alert-card-top strong {
+  font-size: 1.12rem;
+}
+
+.alert-card-top span:last-child {
+  color: #ffb4ab;
+  font-size: 1.4rem;
+}
+
+.alert-card-metrics {
+  margin-top: 18px;
+}
+
+.alert-card-metrics div {
+  flex: 1;
+}
+
+.alert-card p {
+  margin: 18px 0 0;
+  color: rgba(229, 226, 225, 0.82);
+  line-height: 1.6;
+}
+
 @media (max-width: 1180px) {
   .metric-grid,
   .dashboard-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .alerts-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -1076,7 +1159,8 @@ textarea {
 
   .inventory-toolbar,
   .inventory-toolbar-fields,
-  .product-form .form-grid {
+  .product-form .form-grid,
+  .transaction-summary {
     grid-template-columns: 1fr;
   }
 
@@ -1120,6 +1204,10 @@ textarea {
 
   .metric-grid,
   .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .alerts-grid {
     grid-template-columns: 1fr;
   }
 
