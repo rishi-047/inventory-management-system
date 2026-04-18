@@ -1,13 +1,6 @@
 import { useEffect, useState } from "react";
 import AppShell from "../components/AppShell";
-
-function formatCurrency(value) {
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0
-  }).format(value);
-}
+import { formatCategoryLabel, formatCurrencyInr } from "../lib/constants";
 
 function TransactionsPage() {
   const [products, setProducts] = useState([]);
@@ -62,7 +55,7 @@ function TransactionsPage() {
       }
 
       setSuccess(
-        `Sold ${payload.sale.quantitySold} unit(s) of ${payload.sale.product.name} for ${formatCurrency(payload.sale.totalAmount)}.`
+        `Sold ${payload.sale.quantitySold} unit(s) of ${payload.sale.product.name} for ${formatCurrencyInr(payload.sale.totalAmount)}.`
       );
       setQuantitySold("1");
       await loadProducts();
@@ -76,7 +69,7 @@ function TransactionsPage() {
   const selectedProduct = products.find((item) => String(item.id) === productId);
 
   return (
-    <AppShell title="Transaction Terminal" subtitle="Sell inventory and monitor remaining stock in real time">
+    <AppShell title="Transaction Terminal">
       <section className="dashboard-grid">
         <article className="panel-block add-item-panel">
           <div className="panel-header">
@@ -97,7 +90,6 @@ function TransactionsPage() {
                     </option>
                   ))}
                 </select>
-                <i className="material-symbols-outlined">inventory_2</i>
               </label>
 
               <label className="auth-input">
@@ -117,7 +109,7 @@ function TransactionsPage() {
               <div className="transaction-summary">
                 <div>
                   <span>Unit price</span>
-                  <strong>{formatCurrency(selectedProduct.price)}</strong>
+                  <strong>{formatCurrencyInr(selectedProduct.price)}</strong>
                 </div>
                 <div>
                   <span>Stock left now</span>
@@ -125,7 +117,7 @@ function TransactionsPage() {
                 </div>
                 <div>
                   <span>Total preview</span>
-                  <strong>{formatCurrency(selectedProduct.price * Number(quantitySold || 0))}</strong>
+                  <strong>{formatCurrencyInr(selectedProduct.price * Number(quantitySold || 0))}</strong>
                 </div>
               </div>
             ) : null}
@@ -155,11 +147,11 @@ function TransactionsPage() {
               <div key={product.id} className="manifest-row">
                 <div>
                   <strong>{product.name}</strong>
-                  <span>{product.category}</span>
+                  <span>{formatCategoryLabel(product.category)}</span>
                 </div>
                 <div className="manifest-qty">
                   <span>{product.quantity} in stock</span>
-                  <small>{formatCurrency(product.price)} each</small>
+                  <small>{formatCurrencyInr(product.price)} each</small>
                 </div>
               </div>
             ))}

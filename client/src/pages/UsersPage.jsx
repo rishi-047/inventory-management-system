@@ -102,7 +102,7 @@ function UsersPage() {
   }
 
   return (
-    <AppShell title="User Control" subtitle="Admin-only account provisioning and status management">
+    <AppShell title="User Control">
       <section className="dashboard-grid">
         <article className="panel-block add-item-panel">
           <div className="panel-header">

@@ -2,14 +2,12 @@ import { useDeferredValue, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AppShell from "../components/AppShell";
 import { useAuth } from "../context/AuthContext";
-
-function formatCurrency(value) {
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0
-  }).format(value);
-}
+import {
+  PRODUCT_CATEGORIES,
+  categoryTone,
+  formatCategoryLabel,
+  formatCurrencyInr
+} from "../lib/constants";
 
 function InventoryPage() {
   const { user } = useAuth();
@@ -91,7 +89,7 @@ function InventoryPage() {
   }
 
   return (
-    <AppShell title="Inventory Registry" subtitle="Search, filter, and manage live stock records">
+    <AppShell title="Inventory Registry">
       <section className="panel-block inventory-toolbar">
         <div className="inventory-toolbar-fields">
           <label className="toolbar-field">
@@ -107,8 +105,11 @@ function InventoryPage() {
             <span>Category</span>
             <select value={category} onChange={(event) => setCategory(event.target.value)}>
               <option value="all">All</option>
-              <option value="electronics">Electronics</option>
-              <option value="clothing">Clothing</option>
+              {PRODUCT_CATEGORIES.map((item) => (
+                <option key={item} value={item}>
+                  {formatCategoryLabel(item)}
+                </option>
+              ))}
             </select>
           </label>
 
@@ -146,7 +147,6 @@ function InventoryPage() {
         <div className="panel-header">
           <div>
             <h3 className="panel-title">Product Manifest</h3>
-            <p className="panel-copy">Live inventory registry with category-specific metadata.</p>
           </div>
         </div>
 
@@ -176,11 +176,18 @@ function InventoryPage() {
                       <span>ID {product.id}</span>
                     </td>
                     <td>
-                      <span className={`category-chip category-chip-${product.category}`}>
-                        {product.category}
+                      <span className={`category-chip ${categoryTone(product.category)}`}>
+                        {formatCategoryLabel(product.category)}
                       </span>
                     </td>
-                    <td>{formatCurrency(product.price)}</td>
+                    <td>
+                      <strong>{formatCurrencyInr(product.price)}</strong>
+                      {product.currencyCode !== "INR" ? (
+                        <span className="inventory-price-meta">
+                          Entered as {product.currencyCode} {product.originalPrice}
+                        </span>
+                      ) : null}
+                    </td>
                     <td>
                       <span
                         className={`quantity-pill${
@@ -190,8 +197,14 @@ function InventoryPage() {
                         {product.quantity}
                       </span>
                     </td>
-                    <td>{product.category === "electronics" ? `${product.warrantyMonths} mo` : product.size}</td>
-                    <td>{formatCurrency(product.inventoryValue)}</td>
+                    <td>
+                      {product.category === "electronics"
+                        ? `${product.warrantyMonths} mo`
+                        : product.category === "clothing"
+                          ? product.size
+                          : "Standard"}
+                    </td>
+                    <td>{formatCurrencyInr(product.inventoryValue)}</td>
                     {user?.role === "admin" ? (
                       <td>
                         <button

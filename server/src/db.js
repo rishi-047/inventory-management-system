@@ -7,10 +7,38 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const dbPath = path.join(__dirname, "..", "data", "inventory.sqlite");
 
+const PRODUCT_CATEGORIES = ["electronics", "clothing", "stationery", "accessories", "furniture", "appliances"];
+const CURRENCY_RATES = {
+  INR: 1,
+  USD: 83.1,
+  EUR: 90.4,
+  GBP: 106.2,
+  AED: 22.63
+};
+
 const db = new Database(dbPath);
 
 db.pragma("journal_mode = WAL");
 db.pragma("foreign_keys = ON");
+
+function createProductsTable() {
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS products (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      category TEXT NOT NULL CHECK(category IN ('electronics', 'clothing', 'stationery', 'accessories', 'furniture', 'appliances')),
+      price REAL NOT NULL CHECK(price >= 0),
+      original_price REAL NOT NULL DEFAULT 0 CHECK(original_price >= 0),
+      currency_code TEXT NOT NULL DEFAULT 'INR',
+      quantity INTEGER NOT NULL CHECK(quantity >= 0),
+      warranty_months INTEGER,
+      size TEXT,
+      low_stock_threshold INTEGER NOT NULL DEFAULT 5,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+    );
+  `);
+}
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (
@@ -21,19 +49,6 @@ db.exec(`
     role TEXT NOT NULL CHECK(role IN ('admin', 'cashier')),
     is_active INTEGER NOT NULL DEFAULT 1,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-  );
-
-  CREATE TABLE IF NOT EXISTS products (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    category TEXT NOT NULL CHECK(category IN ('electronics', 'clothing')),
-    price REAL NOT NULL CHECK(price >= 0),
-    quantity INTEGER NOT NULL CHECK(quantity >= 0),
-    warranty_months INTEGER,
-    size TEXT,
-    low_stock_threshold INTEGER NOT NULL DEFAULT 5,
-    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
   );
 
   CREATE TABLE IF NOT EXISTS sales (
@@ -60,6 +75,82 @@ db.exec(`
   );
 `);
 
+createProductsTable();
+
+function migrateProductsTableIfNeeded() {
+  const tableSqlRow = db.prepare(`
+    SELECT sql
+    FROM sqlite_master
+    WHERE type = 'table' AND name = 'products'
+  `).get();
+
+  const tableSql = tableSqlRow?.sql ?? "";
+  const needsMigration =
+    !tableSql.includes("original_price") ||
+    !tableSql.includes("currency_code") ||
+    !tableSql.includes("'stationery'") ||
+    !tableSql.includes("'appliances'");
+
+  if (!needsMigration) {
+    return;
+  }
+
+  const migration = db.transaction(() => {
+    db.exec("ALTER TABLE products RENAME TO products_legacy;");
+    createProductsTable();
+
+    db.exec(`
+      INSERT INTO products (
+        id,
+        name,
+        category,
+        price,
+        original_price,
+        currency_code,
+        quantity,
+        warranty_months,
+        size,
+        low_stock_threshold,
+        created_at,
+        updated_at
+      )
+      SELECT
+        id,
+        name,
+        CASE
+          WHEN category IN ('electronics', 'clothing', 'stationery', 'accessories', 'furniture', 'appliances')
+          THEN category
+          ELSE 'accessories'
+        END,
+        price,
+        price,
+        'INR',
+        quantity,
+        warranty_months,
+        size,
+        low_stock_threshold,
+        created_at,
+        updated_at
+      FROM products_legacy;
+    `);
+
+    db.exec("DROP TABLE products_legacy;");
+  });
+
+  migration();
+}
+
+migrateProductsTableIfNeeded();
+
+function convertToInr(originalPrice, currencyCode) {
+  const rate = CURRENCY_RATES[currencyCode];
+  if (!rate) {
+    throw new Error("Unsupported currency.");
+  }
+
+  return Number((Number(originalPrice) * rate).toFixed(2));
+}
+
 const userCount = db.prepare("SELECT COUNT(*) AS count FROM users").get().count;
 if (userCount === 0) {
   const insertUser = db.prepare(`
@@ -85,15 +176,20 @@ if (userCount === 0) {
 const productCount = db.prepare("SELECT COUNT(*) AS count FROM products").get().count;
 if (productCount === 0) {
   const insertProduct = db.prepare(`
-    INSERT INTO products (name, category, price, quantity, warranty_months, size, low_stock_threshold)
-    VALUES (@name, @category, @price, @quantity, @warrantyMonths, @size, @lowStockThreshold)
+    INSERT INTO products (
+      name, category, price, original_price, currency_code, quantity, warranty_months, size, low_stock_threshold
+    )
+    VALUES (
+      @name, @category, @priceInr, @originalPrice, @currencyCode, @quantity, @warrantyMonths, @size, @lowStockThreshold
+    )
   `);
 
   const seedProducts = [
     {
       name: "Warehouse Tablet",
       category: "electronics",
-      price: 42999,
+      originalPrice: 42999,
+      currencyCode: "INR",
       quantity: 12,
       warrantyMonths: 24,
       size: null,
@@ -102,7 +198,8 @@ if (productCount === 0) {
     {
       name: "Barcode Scanner",
       category: "electronics",
-      price: 18999,
+      originalPrice: 18999,
+      currencyCode: "INR",
       quantity: 8,
       warrantyMonths: 18,
       size: null,
@@ -111,7 +208,8 @@ if (productCount === 0) {
     {
       name: "Safety Jacket",
       category: "clothing",
-      price: 1499,
+      originalPrice: 1499,
+      currencyCode: "INR",
       quantity: 18,
       warrantyMonths: null,
       size: "L",
@@ -120,7 +218,8 @@ if (productCount === 0) {
     {
       name: "Shift Polo Shirt",
       category: "clothing",
-      price: 899,
+      originalPrice: 899,
+      currencyCode: "INR",
       quantity: 4,
       warrantyMonths: null,
       size: "M",
@@ -129,7 +228,8 @@ if (productCount === 0) {
     {
       name: "Receipt Printer",
       category: "electronics",
-      price: 10999,
+      originalPrice: 10999,
+      currencyCode: "INR",
       quantity: 2,
       warrantyMonths: 12,
       size: null,
@@ -138,7 +238,10 @@ if (productCount === 0) {
   ];
 
   for (const product of seedProducts) {
-    insertProduct.run(product);
+    insertProduct.run({
+      ...product,
+      priceInr: convertToInr(product.originalPrice, product.currencyCode)
+    });
   }
 }
 
@@ -163,6 +266,8 @@ function normalizeProduct(product) {
     name: product.name,
     category: product.category,
     price: product.price,
+    originalPrice: product.original_price,
+    currencyCode: product.currency_code,
     quantity: product.quantity,
     warrantyMonths: product.warranty_months,
     size: product.size,
@@ -174,7 +279,7 @@ function normalizeProduct(product) {
 }
 
 function validateProductInput(input, mode = "create") {
-  const requiredFields = ["name", "category", "price", "quantity"];
+  const requiredFields = ["name", "category", "originalPrice", "currencyCode", "quantity"];
   if (mode === "create") {
     for (const field of requiredFields) {
       if (input[field] === undefined || input[field] === null || input[field] === "") {
@@ -183,11 +288,15 @@ function validateProductInput(input, mode = "create") {
     }
   }
 
-  if (input.category && !["electronics", "clothing"].includes(input.category)) {
-    throw new Error("Category must be either electronics or clothing.");
+  if (input.category && !PRODUCT_CATEGORIES.includes(input.category)) {
+    throw new Error("Unsupported product category.");
   }
 
-  if (input.price !== undefined && Number(input.price) < 0) {
+  if (input.currencyCode && !CURRENCY_RATES[input.currencyCode]) {
+    throw new Error("Unsupported currency.");
+  }
+
+  if (input.originalPrice !== undefined && Number(input.originalPrice) < 0) {
     throw new Error("Price must be non-negative.");
   }
 
@@ -200,7 +309,10 @@ function validateProductInput(input, mode = "create") {
   }
 
   const effectiveCategory = input.category;
-  if (effectiveCategory === "electronics" && (input.warrantyMonths === undefined || input.warrantyMonths === null || input.warrantyMonths === "")) {
+  if (
+    effectiveCategory === "electronics" &&
+    (input.warrantyMonths === undefined || input.warrantyMonths === null || input.warrantyMonths === "")
+  ) {
     throw new Error("Electronics products require warranty months.");
   }
 
@@ -226,10 +338,7 @@ export function getUserById(id) {
 }
 
 export function listUsers() {
-  return db
-    .prepare("SELECT * FROM users ORDER BY created_at DESC")
-    .all()
-    .map(sanitizeUser);
+  return db.prepare("SELECT * FROM users ORDER BY created_at DESC").all().map(sanitizeUser);
 }
 
 export function createUser({ fullName, username, password, role }, actorUserId) {
@@ -268,7 +377,13 @@ export function updateUserStatus(userId, isActive, actorUserId) {
   }
 
   const updatedUser = getUserById(userId);
-  logActivity(actorUserId, "UPDATE", "user", updatedUser.id, `${updatedUser.username} was marked ${updatedUser.isActive ? "active" : "inactive"}.`);
+  logActivity(
+    actorUserId,
+    "UPDATE",
+    "user",
+    updatedUser.id,
+    `${updatedUser.username} was marked ${updatedUser.isActive ? "active" : "inactive"}.`
+  );
   return updatedUser;
 }
 
@@ -314,23 +429,44 @@ export function getProductById(productId) {
 export function createProduct(input, actorUserId) {
   validateProductInput(input, "create");
 
+  const originalPrice = Number(input.originalPrice);
+  const currencyCode = input.currencyCode;
+  const priceInr = convertToInr(originalPrice, currencyCode);
+
   const result = db.prepare(`
     INSERT INTO products (
-      name, category, price, quantity, warranty_months, size, low_stock_threshold, updated_at
+      name,
+      category,
+      price,
+      original_price,
+      currency_code,
+      quantity,
+      warranty_months,
+      size,
+      low_stock_threshold,
+      updated_at
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
   `).run(
     input.name.trim(),
     input.category,
-    Number(input.price),
+    priceInr,
+    originalPrice,
+    currencyCode,
     Number(input.quantity),
     input.category === "electronics" ? Number(input.warrantyMonths) : null,
-    input.category === "clothing" ? input.size.trim() : null,
+    input.category === "clothing" ? input.size?.trim() : null,
     Number(input.lowStockThreshold ?? 5)
   );
 
   const createdProduct = getProductById(result.lastInsertRowid);
-  logActivity(actorUserId, "CREATE", "product", createdProduct.id, `Added product ${createdProduct.name}.`);
+  logActivity(
+    actorUserId,
+    "CREATE",
+    "product",
+    createdProduct.id,
+    `Added product ${createdProduct.name} in ${createdProduct.category}.`
+  );
   return createdProduct;
 }
 
@@ -343,7 +479,8 @@ export function updateProduct(productId, input, actorUserId) {
   const merged = {
     name: input.name ?? existing.name,
     category: input.category ?? existing.category,
-    price: input.price ?? existing.price,
+    originalPrice: input.originalPrice ?? existing.original_price,
+    currencyCode: input.currencyCode ?? existing.currency_code,
     quantity: input.quantity ?? existing.quantity,
     warrantyMonths: input.warrantyMonths ?? existing.warranty_months,
     size: input.size ?? existing.size,
@@ -351,6 +488,7 @@ export function updateProduct(productId, input, actorUserId) {
   };
 
   validateProductInput(merged, "update");
+  const convertedPrice = convertToInr(merged.originalPrice, merged.currencyCode);
 
   db.prepare(`
     UPDATE products
@@ -358,6 +496,8 @@ export function updateProduct(productId, input, actorUserId) {
       name = ?,
       category = ?,
       price = ?,
+      original_price = ?,
+      currency_code = ?,
       quantity = ?,
       warranty_months = ?,
       size = ?,
@@ -367,10 +507,12 @@ export function updateProduct(productId, input, actorUserId) {
   `).run(
     merged.name.trim(),
     merged.category,
-    Number(merged.price),
+    convertedPrice,
+    Number(merged.originalPrice),
+    merged.currencyCode,
     Number(merged.quantity),
     merged.category === "electronics" ? Number(merged.warrantyMonths) : null,
-    merged.category === "clothing" ? merged.size.trim() : null,
+    merged.category === "clothing" ? merged.size?.trim() : null,
     Number(merged.lowStockThreshold),
     productId
   );
@@ -445,32 +587,35 @@ export function getLowStockProducts() {
 }
 
 export function listActivity(limit = 12) {
-  return db.prepare(`
-    SELECT
-      activity_logs.id,
-      activity_logs.action_type,
-      activity_logs.entity_type,
-      activity_logs.entity_id,
-      activity_logs.description,
-      activity_logs.created_at,
-      users.full_name AS actor_name,
-      users.username AS actor_username,
-      users.role AS actor_role
-    FROM activity_logs
-    LEFT JOIN users ON users.id = activity_logs.actor_user_id
-    ORDER BY activity_logs.created_at DESC, activity_logs.id DESC
-    LIMIT ?
-  `).all(limit).map((row) => ({
-    id: row.id,
-    actionType: row.action_type,
-    entityType: row.entity_type,
-    entityId: row.entity_id,
-    description: row.description,
-    createdAt: row.created_at,
-    actorName: row.actor_name,
-    actorUsername: row.actor_username,
-    actorRole: row.actor_role
-  }));
+  return db
+    .prepare(`
+      SELECT
+        activity_logs.id,
+        activity_logs.action_type,
+        activity_logs.entity_type,
+        activity_logs.entity_id,
+        activity_logs.description,
+        activity_logs.created_at,
+        users.full_name AS actor_name,
+        users.username AS actor_username,
+        users.role AS actor_role
+      FROM activity_logs
+      LEFT JOIN users ON users.id = activity_logs.actor_user_id
+      ORDER BY activity_logs.created_at DESC, activity_logs.id DESC
+      LIMIT ?
+    `)
+    .all(limit)
+    .map((row) => ({
+      id: row.id,
+      actionType: row.action_type,
+      entityType: row.entity_type,
+      entityId: row.entity_id,
+      description: row.description,
+      createdAt: row.created_at,
+      actorName: row.actor_name,
+      actorUsername: row.actor_username,
+      actorRole: row.actor_role
+    }));
 }
 
 export function getDashboardData() {
@@ -488,19 +633,22 @@ export function getDashboardData() {
     WHERE quantity <= low_stock_threshold
   `).get().count;
 
-  const categoryBreakdown = db.prepare(`
-    SELECT
-      category,
-      COUNT(*) AS productCount,
-      COALESCE(SUM(price * quantity), 0) AS inventoryValue
-    FROM products
-    GROUP BY category
-    ORDER BY inventoryValue DESC
-  `).all().map((row) => ({
-    category: row.category,
-    productCount: row.productCount,
-    inventoryValue: Number(row.inventoryValue.toFixed(2))
-  }));
+  const categoryBreakdown = db
+    .prepare(`
+      SELECT
+        category,
+        COUNT(*) AS productCount,
+        COALESCE(SUM(price * quantity), 0) AS inventoryValue
+      FROM products
+      GROUP BY category
+      ORDER BY inventoryValue DESC
+    `)
+    .all()
+    .map((row) => ({
+      category: row.category,
+      productCount: row.productCount,
+      inventoryValue: Number(row.inventoryValue.toFixed(2))
+    }));
 
   const topStockItems = db.prepare(`
     SELECT id, name, quantity, category
@@ -532,4 +680,4 @@ export function getDashboardData() {
   };
 }
 
-export { db };
+export { CURRENCY_RATES, PRODUCT_CATEGORIES, db };

@@ -1,10 +1,18 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  CURRENCIES,
+  CURRENCY_RATES,
+  PRODUCT_CATEGORIES,
+  formatCategoryLabel,
+  formatCurrencyInr
+} from "../lib/constants";
 
 const initialState = {
   name: "",
   category: "electronics",
-  price: "",
+  originalPrice: "",
+  currencyCode: "INR",
   quantity: "",
   warrantyMonths: "12",
   size: "M",
@@ -22,6 +30,9 @@ function ProductForm() {
     setForm((current) => ({ ...current, [field]: value }));
   }
 
+  const convertedPrice =
+    Number(form.originalPrice || 0) * (CURRENCY_RATES[form.currencyCode] || CURRENCY_RATES.INR);
+
   async function handleSubmit(event) {
     event.preventDefault();
     setError("");
@@ -31,7 +42,8 @@ function ProductForm() {
     const payload = {
       name: form.name,
       category: form.category,
-      price: Number(form.price),
+      originalPrice: Number(form.originalPrice),
+      currencyCode: form.currencyCode,
       quantity: Number(form.quantity),
       lowStockThreshold: Number(form.lowStockThreshold),
       warrantyMonths: form.category === "electronics" ? Number(form.warrantyMonths) : undefined,
@@ -78,22 +90,40 @@ function ProductForm() {
         <label className="auth-input">
           <span>CATEGORY</span>
           <select value={form.category} onChange={(event) => updateField("category", event.target.value)}>
-            <option value="electronics">Electronics</option>
-            <option value="clothing">Clothing</option>
+            {PRODUCT_CATEGORIES.map((category) => (
+              <option key={category} value={category}>
+                {formatCategoryLabel(category)}
+              </option>
+            ))}
           </select>
           <i className="material-symbols-outlined">category</i>
         </label>
 
         <label className="auth-input">
-          <span>UNIT_PRICE</span>
+          <span>UNIT_PRICE_SOURCE</span>
           <input
             type="number"
             min="0"
             step="0.01"
-            value={form.price}
-            onChange={(event) => updateField("price", event.target.value)}
+            value={form.originalPrice}
+            onChange={(event) => updateField("originalPrice", event.target.value)}
           />
           <i className="material-symbols-outlined">payments</i>
+        </label>
+
+        <label className="auth-input">
+          <span>CURRENCY_CODE</span>
+          <select
+            value={form.currencyCode}
+            onChange={(event) => updateField("currencyCode", event.target.value)}
+          >
+            {CURRENCIES.map((currency) => (
+              <option key={currency} value={currency}>
+                {currency}
+              </option>
+            ))}
+          </select>
+          <i className="material-symbols-outlined">currency_exchange</i>
         </label>
 
         <label className="auth-input">
@@ -120,7 +150,7 @@ function ProductForm() {
             />
             <i className="material-symbols-outlined">verified</i>
           </label>
-        ) : (
+        ) : form.category === "clothing" ? (
           <label className="auth-input">
             <span>SIZE_CODE</span>
             <select value={form.size} onChange={(event) => updateField("size", event.target.value)}>
@@ -132,6 +162,12 @@ function ProductForm() {
             </select>
             <i className="material-symbols-outlined">styler</i>
           </label>
+        ) : (
+          <div className="form-placeholder-card">
+            <span>EXTRA_METADATA</span>
+            <strong>{formatCategoryLabel(form.category)}</strong>
+            <p>This category does not require additional inventory attributes at intake.</p>
+          </div>
         )}
 
         <label className="auth-input">
@@ -145,6 +181,14 @@ function ProductForm() {
           />
           <i className="material-symbols-outlined">warning</i>
         </label>
+
+        <div className="currency-preview">
+          <span>INR_PREVIEW</span>
+          <strong>{formatCurrencyInr(convertedPrice)}</strong>
+          <p>
+            Stored inventory value is normalized to INR from {form.currencyCode} on submission.
+          </p>
+        </div>
       </div>
 
       {error ? <div className="auth-error">{error}</div> : null}

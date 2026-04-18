@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Bar,
   BarChart,
@@ -12,16 +13,9 @@ import {
 } from "recharts";
 import AppShell from "../components/AppShell";
 import MetricCard from "../components/MetricCard";
+import { formatCategoryLabel, formatCurrencyInr } from "../lib/constants";
 
-const categoryColors = ["#ffd79b", "#78dc77", "#ffb4ab", "#d6c4ac"];
-
-function formatCurrency(value) {
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0
-  }).format(value);
-}
+const categoryColors = ["#ffd166", "#4cc9f0", "#80ed99", "#ff6b6b", "#b388ff", "#ff9f68"];
 
 function DashboardPage() {
   const [data, setData] = useState(null);
@@ -67,12 +61,12 @@ function DashboardPage() {
   }, []);
 
   return (
-    <AppShell title="System Overview" subtitle="Live telemetry and inventory analytics">
+    <AppShell title="System Overview">
       {isLoading ? (
         <section className="panel-block">
           <div className="boot-mark">Loading</div>
           <h3 className="panel-title">Synchronizing operational dashboard.</h3>
-          <p className="panel-copy">Fetching metrics, alerts, charts, and recent activity.</p>
+          <p className="panel-copy">Fetching metrics, alerts, and charted inventory data.</p>
         </section>
       ) : error ? (
         <section className="panel-block error-block">
@@ -105,7 +99,7 @@ function DashboardPage() {
             />
             <MetricCard
               label="Inventory Value"
-              value={formatCurrency(data.metrics.totalInventoryValue)}
+              value={formatCurrencyInr(data.metrics.totalInventoryValue)}
               detail="Computed from current stock and unit pricing"
               icon="payments"
               accent="accent"
@@ -120,7 +114,7 @@ function DashboardPage() {
             <MetricCard
               label="Sales Logged"
               value={data.metrics.totalSales}
-              detail={`${formatCurrency(data.metrics.totalSalesValue)} transacted so far`}
+              detail={`${formatCurrencyInr(data.metrics.totalSalesValue)} transacted so far`}
               icon="point_of_sale"
               accent="good"
             />
@@ -177,7 +171,7 @@ function DashboardPage() {
                       ))}
                     </Pie>
                     <Tooltip
-                      formatter={(value) => formatCurrency(value)}
+                      formatter={(value) => formatCurrencyInr(value)}
                       contentStyle={{
                         background: "#202020",
                         border: "1px solid rgba(255, 215, 155, 0.12)",
@@ -193,29 +187,33 @@ function DashboardPage() {
                   <div key={entry.category} className="legend-row">
                     <div className="legend-meta">
                       <i style={{ backgroundColor: categoryColors[index % categoryColors.length] }} />
-                      <span>{entry.category}</span>
+                      <span>{formatCategoryLabel(entry.category)}</span>
                     </div>
-                    <strong>{formatCurrency(entry.inventoryValue)}</strong>
+                    <strong>{formatCurrencyInr(entry.inventoryValue)}</strong>
                   </div>
                 ))}
               </div>
             </article>
           </section>
 
-          <section className="dashboard-grid">
+          <section className="dashboard-grid dashboard-grid-single">
             <article className="panel-block">
               <div className="panel-header">
                 <div>
                   <h3 className="panel-title">Low Stock Manifest</h3>
                   <p className="panel-copy">Items closest to operational risk threshold.</p>
                 </div>
+                <Link to="/activity" className="subtle-link-button">
+                  <span className="material-symbols-outlined">receipt_long</span>
+                  View Activity Log
+                </Link>
               </div>
               <div className="manifest-list">
                 {data.lowStockItems.map((item) => (
                   <div key={item.id} className="manifest-row">
                     <div>
                       <strong>{item.name}</strong>
-                      <span>{item.category}</span>
+                      <span>{formatCategoryLabel(item.category)}</span>
                     </div>
                     <div className="manifest-qty">
                       <span>{item.quantity} in stock</span>
@@ -223,32 +221,6 @@ function DashboardPage() {
                     </div>
                   </div>
                 ))}
-              </div>
-            </article>
-
-            <article className="panel-block">
-              <div className="panel-header">
-                <div>
-                  <h3 className="panel-title">Recent Activity</h3>
-                  <p className="panel-copy">Most recent tracked system actions.</p>
-                </div>
-              </div>
-              <div className="activity-list">
-                {data.recentActivity.length === 0 ? (
-                  <p className="empty-note">No activity logged yet.</p>
-                ) : (
-                  data.recentActivity.map((item) => (
-                    <div key={item.id} className="activity-row">
-                      <div className="activity-dot" />
-                      <div>
-                        <strong>{item.description}</strong>
-                        <span>
-                          {item.actorName || "System"} · {new Date(item.createdAt).toLocaleString()}
-                        </span>
-                      </div>
-                    </div>
-                  ))
-                )}
               </div>
             </article>
           </section>

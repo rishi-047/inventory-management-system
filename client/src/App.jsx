@@ -3,6 +3,7 @@ import AdminRoute from "./components/AdminRoute";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import AddItemPage from "./pages/AddItemPage";
+import ActivityPage from "./pages/ActivityPage";
 import AlertsPage from "./pages/AlertsPage";
 import DashboardPage from "./pages/DashboardPage";
 import InventoryPage from "./pages/InventoryPage";
@@ -53,6 +54,14 @@ function App() {
           element={
             <ProtectedRoute>
               <AlertsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/activity"
+          element={
+            <ProtectedRoute>
+              <ActivityPage />
             </ProtectedRoute>
           }
         />

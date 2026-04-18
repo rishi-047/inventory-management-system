@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import AppShell from "../components/AppShell";
+import { formatCategoryLabel } from "../lib/constants";
 
 function AlertsPage() {
   const [items, setItems] = useState([]);
@@ -44,7 +45,7 @@ function AlertsPage() {
   }, []);
 
   return (
-    <AppShell title="Critical Stock Alerts" subtitle="Watchlist for SKUs at or below threshold">
+    <AppShell title="Critical Stock Alerts">
       {error ? <div className="auth-error inventory-error">{error}</div> : null}
 
       <section className="panel-block">
@@ -68,7 +69,7 @@ function AlertsPage() {
                 <div className="alert-card-top">
                   <div>
                     <strong>{item.name}</strong>
-                    <span>{item.category}</span>
+                    <span>{formatCategoryLabel(item.category)}</span>
                   </div>
                   <span className="material-symbols-outlined">warning</span>
                 </div>

@@ -3,13 +3,14 @@ import ProductForm from "../components/ProductForm";
 
 function AddItemPage() {
   return (
-    <AppShell title="New Entry" subtitle="Register a new product into the live inventory">
+    <AppShell title="New Entry">
       <section className="panel-block add-item-panel">
         <div className="panel-header">
           <div>
             <h3 className="panel-title">Product Intake Form</h3>
             <p className="panel-copy">
-              Use electronics for warranty-backed equipment and clothing for size-based apparel stock.
+              Register products across multiple categories and capture source pricing in the
+              currency used at purchase. Inventory value is normalized to INR automatically.
             </p>
           </div>
         </div>
